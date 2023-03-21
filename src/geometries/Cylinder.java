@@ -1,7 +1,7 @@
 /**
 
- Represents a cylinder in 3D space, which is a type of tube with a specific height.
- @author: Avigail Tenenbaum and Noa Landman
+ *Cylinder class Represents a cylinder in 3D space, which is a type of tube with a specific height.
+* @author: Avigail Tenenbaum and Noa Landman
  */
 package geometries;
 import primitives.Point;
@@ -13,7 +13,7 @@ public class Cylinder extends Tube{
     /**
      * The height of the cylinder.
      */
-    private double height;
+    private final double height;
 
     /**
      * Constructs a new cylinder object with the specified radius, axis ray, and height.

@@ -1,7 +1,7 @@
 /**
 
- The Tube class represents a tube-shaped 3D geometrical object.
- It extends the RadialGeometry class and includes an axis ray for the tube.
+ *The Tube class represents a tube-shaped 3D geometrical object.
+ *It extends the RadialGeometry class and includes an axis ray for the tube.
  @author: Avigail Tenenbaum and Noa Landman
  */
 package geometries;
@@ -14,7 +14,7 @@ public class Tube extends RadialGeometry{
     /**
      * The axis ray of the tube.
      */
-    protected Ray axisRay;
+    protected final Ray axisRay;
 
     /**
      * Constructs a Tube object with the specified radius and axis ray.

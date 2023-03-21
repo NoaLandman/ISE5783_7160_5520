@@ -8,7 +8,7 @@ package primitives;
 import java.util.Objects;
 public class Point {
 
-    final Double3 xyz;
+     protected final Double3 xyz;
     /**
      * Constructs a new Point object with the specified x, y, and z coordinates.
      *
@@ -25,7 +25,7 @@ public class Point {
      *
      * @param double3 the Double3 object representing the point's coordinates
      */
-    public Point(Double3 double3){
+     Point(Double3 double3){
         this(double3.d1, double3.d2, double3.d3);
     }
 

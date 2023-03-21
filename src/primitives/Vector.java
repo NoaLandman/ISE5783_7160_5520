@@ -27,7 +27,7 @@ public class Vector extends Point {
      *
      * @param double3 the Double3 object containing the x, y, and z coordinates of the vector
      */
-    public Vector(Double3 double3) {
+     Vector(Double3 double3) {
         this(double3.d1, double3.d2, double3.d3);
     }
 

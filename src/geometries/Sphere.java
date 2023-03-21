@@ -1,7 +1,7 @@
 /**
 
- Represents a sphere in 3D space with a given radius and center point.
- @author: Avigail Tenenbaum and Noa Landman
+*Sphere class Represents a sphere in 3D space with a given radius and center point.
+ *@author: Avigail Tenenbaum and Noa Landman
  */
 package geometries;
 import primitives.Point;
@@ -12,7 +12,7 @@ public class Sphere extends RadialGeometry {
     /**
      * The center point of the sphere.
      */
-    private Point center;
+    private final Point center;
 
     /**
      * Constructs a new sphere object with the given radius and center point.

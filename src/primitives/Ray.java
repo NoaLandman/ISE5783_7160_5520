@@ -2,12 +2,12 @@ package primitives;
 
 /**
 
- Represents a Ray in 3D space.
- @author: Avigail Tenenbaum and Noa Landman
+*class Ray Represents a Ray in 3D space.
+* @author: Avigail Tenenbaum and Noa Landman
  */
 public class Ray {
-     Point p0;
-     Vector dir;
+    private final Point p0;
+    private final Vector dir;
 
     /**
 

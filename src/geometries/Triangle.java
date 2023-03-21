@@ -1,7 +1,7 @@
 /**
 
- The Triangle class represents a polygon with three vertices.
- It is a subclass of the Polygon class.
+ *The Triangle class represents a polygon with three vertices.
+ *It is a subclass of the Polygon class.
  @author: Avigail Tenenbaum and Noa Landman
  */
 package geometries;

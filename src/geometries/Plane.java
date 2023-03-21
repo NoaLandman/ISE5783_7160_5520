@@ -10,10 +10,10 @@ import primitives.Vector;
 public class Plane implements Geometry {
 
     /* the reference point of the plane*/
-    private Point p0;
+    private final Point p0;
 
     /* the normal vector of the plane*/
-    private Vector normal;
+    private final Vector normal;
 
     /**
      * Constructs a plane using a reference point and a normal vector.
