@@ -6,6 +6,9 @@
  */
 package geometries;
 import primitives.Point;
+import primitives.Vector;
+
+import javax.lang.model.type.NullType;
 
 public class Triangle extends Polygon{
 

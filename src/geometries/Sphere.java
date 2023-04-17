@@ -33,6 +33,8 @@ public class Sphere extends RadialGeometry {
      */
     @Override
     public Vector getNormal(Point point) {
-        return null;
+       /** if(center.distance(point)!=radius)
+            throw new IllegalArgumentException("the point has to be on the sphere");**/
+        return point.subtract(center).normalize();
     }
 }
