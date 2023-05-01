@@ -5,8 +5,12 @@
  */
 package geometries;
 import primitives.Point;
+import primitives.Ray;
 import primitives.Vector;
 
+import java.util.List;
+
+import static primitives.Util.alignZero;
 import static primitives.Util.isZero;
 
 public class Plane implements Geometry {
@@ -65,13 +69,52 @@ public class Plane implements Geometry {
      * Returns the normal vector of the plane.
      * @return the normal vector of the plane
      */
+
     public Vector getNormal() {
         return normal;
     }
 
+    /**
+     * Returns the normal vector to the plane at the given point.
+     *
+     * @param point the point on the plane
+     * @return the normal vector to the plane at the given point
+     */
+
     @Override
     public Vector getNormal(Point point) {
         return getNormal();
+    }
+
+    /**
+     * Finds the intersection points between the given ray and the plane.
+     *
+     * @param ray the ray to find intersections with
+     * @return a list of intersection points, or null if there are no intersections
+     */
+
+    @Override
+    public List<Point> findIntsersections(Ray ray) {
+        Point p0 = ray.getP0();
+        Vector v = ray.getDir();
+        Vector n = normal;
+        if (q0.equals(p0))
+            return null;
+        double nv = alignZero(n.dotProduct(v));
+        if (isZero(nv))
+            return null;
+
+        Vector P0_Q0 = q0.subtract(p0); // Q - P0
+        double nP0Q0 = alignZero(n.dotProduct(P0_Q0));
+
+        if (isZero(nP0Q0))
+            return null;
+
+        double t = alignZero(nP0Q0 / nv);
+        // t should be bigger than 0
+        if (t<=0)
+            return null;
+        return List.of(ray.getPoint(t));
     }
 }
 

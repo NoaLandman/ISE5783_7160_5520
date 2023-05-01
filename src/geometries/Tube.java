@@ -10,6 +10,12 @@ import primitives.Ray;
 import primitives.Util;
 import primitives.Vector;
 
+import java.util.List;
+
+import static primitives.Util.alignZero;
+import static primitives.Util.isZero;
+
+/** @author Avigail and Noa */
 public class Tube extends RadialGeometry{
 
     /**
@@ -27,6 +33,7 @@ public class Tube extends RadialGeometry{
         this.axisRay = axisRay;
     }
 
+
     /**
      * Returns the axis ray of the tube.
      * @return the axis ray of the tube
@@ -41,22 +48,33 @@ public class Tube extends RadialGeometry{
      * @return the normal vector to the given point on the tube's surface
      */
     @Override
-    public Vector getNormal(Point point) {
-       /** Vector dir = axisRay.getDir();
-        Point p0 = axisRay.getP0();
+      public Vector getNormal(Point point) {
+          //TODO
+          Point P0 = axisRay.getP0();
+          Vector v = axisRay.getDir();
 
-        var t = dir.dotProduct(point.subtract(p0));
-        if (Util.isZero(t))
-            return point.subtract(p0).normalize();
-        var o = p0.add(dir.scale(t));
-        return point.subtract(o).normalize();**/
-        Vector dir = axisRay.getDir();
-        Point p0 = axisRay.getP0();
+          Vector P0_P = point.subtract(P0);
 
-        var t = dir.dotProduct(point.subtract(p0));
-        if (Util.isZero(t))
-            return point.subtract(p0).normalize();
-        var o = p0.add(dir.scale(t));
-        return point.subtract(o).normalize();
+          double t = alignZero(v.dotProduct(P0_P));
+
+          if (isZero(t)) {
+              return P0_P.normalize();
+          }
+
+          Point o = P0.add(v.scale(t));
+
+          if (point.equals(o)) {
+              throw new IllegalArgumentException("point cannot be on the tube axis");
+          }
+
+          Vector n = point.subtract(o).normalize();
+
+          return n;
+      }
+
+
+    @Override
+    public List<Point> findIntsersections(Ray ray) {
+        return null;
     }
 }

@@ -6,6 +6,7 @@
  @version 1.0
  */
 package primitives;
+/** @author Avigail and Noa */
 public class Vector extends Point {
 
     /**

@@ -7,8 +7,9 @@
 package geometries;
 import primitives.Point;
 import primitives.Vector;
+/** @author Avigail and Noa */
+public interface Geometry extends Intersectable{
 
-public interface Geometry {
 
     /**
      * Returns the normal vector of the shape at the specified point.

@@ -6,6 +6,7 @@
  */
 package primitives;
 import java.util.Objects;
+/** @author Avigail and Noa */
 public class Point {
 
       final Double3 xyz;
@@ -103,7 +104,32 @@ public class Point {
     public Vector subtract(Point point) {
         return  new Vector(this.xyz.subtract(point.xyz));
     }
+    /**
+     * Returns the x-coordinate of this Point.
+     *
+     * @return the x-coordinate of this Point
+     */
+    public double getX() {
+        return this.xyz.d1;
+    }
 
+    /**
+     * Returns the y-coordinate of this Point.
+     *
+     * @return the y-coordinate of this Point
+     */
+    public double getY() {
+        return this.xyz.d2;
+    }
+
+    /**
+     * Returns the z-coordinate of this Point.
+     *
+     * @return the z-coordinate of this Point
+     */
+    public double getZ() {
+        return this.xyz.d3;
+    }
 }
 
 

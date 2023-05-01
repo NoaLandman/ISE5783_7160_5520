@@ -1,16 +1,13 @@
 package geometries;
 
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.junit.jupiter.api.Assertions.fail;
+import static org.junit.jupiter.api.Assertions.*;
 import static primitives.Util.isZero;
 
 import org.junit.jupiter.api.Test;
 
 import geometries.Polygon;
 import primitives.Point;
+import primitives.Ray;
 import primitives.Vector;
 
 /** Testing Polygons
@@ -83,5 +80,41 @@ public class PolygonTests {
       for (int i = 0; i < 3; ++i)
          assertTrue(isZero(result.dotProduct(pts[i].subtract(pts[i == 0 ? 3 : i - 1]))),
                     "Polygon's normal is not orthogonal to one of the edges");
+   }
+   /**
+    * Test method for {@link geometries.Polygon#findIntsersections(Ray)} (primitives.Ray)}.
+    */
+   @Test
+   public void testFindIntersections() {
+      Polygon pl = new Polygon(new Point(2, 0, 0), new Point(4, 0, 0), new Point(4, 0, 4),
+              new Point(2, 0, 2));
+
+      // ============ Equivalence Partitions Tests ==============
+
+      // TC01: Inside polygon
+      assertEquals(new Point(3, 0, 1), pl.findIntsersections(new Ray(new Point(3, -1, 1),
+              new Vector(0, 1, 0))).get(0),"the Ray not cross inside polygon");
+
+      // TC02: Outside against edge
+      assertNull(pl.findIntsersections(new Ray(new Point(1, -1, 1),new Vector(0, 1, 0))),
+              "the Ray not cross outside against edge");
+
+      // TC03: Outside against vertex
+      assertNull(pl.findIntsersections(new Ray(new Point(1, -1, -1),new Vector(0, 1, 0))),
+              "the Ray not cross outside against vertex");
+
+      // =============== Boundary Values Tests ==================
+
+      // TC04: the ray begins "before" the plane (On edge)
+      assertNull(pl.findIntsersections(new Ray(new Point(2, -1, 1),new Vector(0, 1, 0))),
+              "the ray begins before the plane and not cross on edge");
+
+      // TC05: the ray begins "before" the plane (In vertex)
+      assertNull(pl.findIntsersections(new Ray(new Point(2, -1, 2),new Vector(0, 1, 0))),
+              "the ray begins before the plane and not cross in vertex");
+
+      // TC06: the ray begins "before" the plane (On edge's continuation)
+      assertNull(pl.findIntsersections(new Ray(new Point(2, -1, 3),new Vector(0, 1, 0))),
+              "the ray begins before the plane and not cross on edge's continuation");
    }
 }

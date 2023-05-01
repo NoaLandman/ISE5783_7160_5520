@@ -1,10 +1,12 @@
 package geometries;
 
+import static primitives.Util.alignZero;
 import static primitives.Util.isZero;
 
 import java.util.List;
 
 import primitives.Point;
+import primitives.Ray;
 import primitives.Vector;
 
 /** Polygon class represents two-dimensional polygon in 3D Cartesian coordinate
@@ -77,6 +79,18 @@ public class Polygon implements Geometry {
       }
    }
 
+   /**
+    * Returns the normal vector to the surface of the polygon at the given point.
+    *
+    * @param point the point on the polygon for which to return the normal vector
+    * @return the normal vector to the surface of the polygon at the given point
+    */
+
    @Override
    public Vector getNormal(Point point) { return plane.getNormal(); }
+
+   @Override
+   public List<Point> findIntsersections(Ray ray) {
+      return null;
+   }
 }

@@ -5,6 +5,7 @@
  @author: Avigail Tenenbaum and Noa Landman
  */
 package geometries;
+/** @author Avigail and Noa */
 public abstract class RadialGeometry implements Geometry {
 
     /**

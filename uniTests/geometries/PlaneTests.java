@@ -2,11 +2,14 @@ package geometries;
 
 import org.junit.jupiter.api.Test;
 import primitives.Point;
+import primitives.Ray;
 import primitives.Vector;
+
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static primitives.Util.isZero;
-
+/** @author Avigail and Noa */
 class PlaneTests {
     /**
      * Test method for {@link Plane#getNormal()} .
@@ -38,4 +41,51 @@ class PlaneTests {
                    () -> new Plane(new Point(1, 2, 3), new Point(1, 2, 3), new Point(1, 8, 12)), //
                       "Constructed a plane with first and second points are converge");
     }
-}
+    /**
+     * Test method for {@link geometries.Plane#findIntsersections(Ray)} (primitives.Ray)}.
+     */
+    @Test
+    void testFindIntersections() {
+        Plane pl = new Plane(new Point(0, 0, 1), new Vector(1, 1, 1));
+        // ============ Equivalence Partitions Tests ==============
+        // TC01: Ray into plane
+        assertEquals(List.of(new Point(1, 0, 0)),
+                pl.findIntsersections(new Ray(new Point(0.5, 0, 0), new Vector(1, 0, 0))),
+                "Bad plane intersection");
+
+        // TC02: Ray out of plane
+        assertNull(pl.findIntsersections(new Ray(new Point(2, 0, 0), new Vector(1, 0, 0))),
+                "Must not be plane intersection");
+
+        // =============== Boundary Values Tests ==================
+        // TC11: Ray parallel to plane
+        assertNull(pl.findIntsersections(new Ray(new Point(1, 1, 1), new Vector(0, 1, -1))),
+                "Must not be plane intersection");
+
+        // TC12: Ray in plane
+        assertNull(pl.findIntsersections(new Ray(new Point(0, 0.5, .5), new Vector(0, 1, -1))),
+                "Must not be plane intersection");
+
+
+        // TC13: Orthogonal ray start into plane
+        assertNull(pl.findIntsersections(new Ray(new Point(1, 1, -1), new Vector(0, 0, 1))),
+                "Must not be plane intersection");
+
+        // TC14: Orthogonal ray start after of plane
+
+        assertNull(pl.findIntsersections(new Ray(new Point(1,1,3), new Vector(0, 0, 1))),
+                "Must not be plane intersection");
+
+        // TC15: Orthogonal ray start before of plane
+        assertEquals(List.of(new Point(1, 1, -1)),pl.findIntsersections(new Ray(new Point(1, 1, -3),
+                new Vector(0, 0, 1))),"Bad plane intersection");
+
+        // TC16: Ray from plane
+        assertNull(pl.findIntsersections(new Ray(new Point(0, 0.5, 0.5), new Vector(1, 1, 0))),
+                "Must not be plane intersection");
+
+        // TC17: Ray from plane's Q point
+        assertNull(pl.findIntsersections(new Ray(new Point(0, 0, 1), new Vector(1, 1, 0))),
+                "Must not be plane intersection");
+    }
+    }

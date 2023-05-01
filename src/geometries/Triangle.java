@@ -6,9 +6,15 @@
  */
 package geometries;
 import primitives.Point;
+import primitives.Ray;
+import primitives.Util;
 import primitives.Vector;
 
 import javax.lang.model.type.NullType;
+import java.util.LinkedList;
+import java.util.List;
+
+/** @author Avigail and Noa */
 
 public class Triangle extends Polygon{
 
@@ -21,5 +27,39 @@ public class Triangle extends Polygon{
      */
     public Triangle(Point p1, Point p2, Point p3) {
         super(p1, p2, p3);
+    }
+
+    /**
+     * Finds the intersection points between the triangle and a given ray.
+     *
+     * @param ray the ray to find the intersection points with
+     * @return a list of intersection points, or null if there are no intersections
+     */
+    @Override
+    public List<Point> findIntsersections(Ray ray) {
+        List<Point> l = vertices;
+        Vector v1= l.get(0).subtract(ray.getP0());
+        Vector v2= l.get(1).subtract(ray.getP0());
+        Vector v3= l.get(2).subtract(ray.getP0());
+        Vector n1=(v1.crossProduct(v2)).normalize();
+        Vector n2=(v2.crossProduct(v3)).normalize();
+        Vector n3=(v3.crossProduct(v1)).normalize();
+
+        double num1 = n1.dotProduct(ray.getDir());
+        double num2 = n2.dotProduct(ray.getDir());
+        double num3 = n3.dotProduct(ray.getDir());
+
+        // if there is an intersection point inside the triangle
+        if((num1>0&&num2>0&&num3>0)||(num1<0&&num2<0&&num3<0)) {
+
+            List<Point> points = new LinkedList<>();
+            if(plane.findIntsersections(ray) != null) {
+                for (Point pt : plane.findIntsersections(ray)) {
+                    points.add(pt);
+                }
+            }
+            return points;
+        }
+        return null; // there isn't an intersection point inside the triangle
     }
 }
