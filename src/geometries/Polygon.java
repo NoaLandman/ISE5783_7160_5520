@@ -91,6 +91,34 @@ public class Polygon implements Geometry {
 
    @Override
    public List<Point> findIntsersections(Ray ray) {
-      return null;
+      List<Point> planePoints = plane.findIntsersections(ray);
+
+      if(planePoints== null){
+         return null;
+      }
+
+
+      List<Point> l = vertices;
+      Point p0 = ray.getP0();
+
+      Vector v1 = l.get(0).subtract(p0);
+      Vector v2 = l.get(1).subtract(p0);
+      Vector v3 = l.get(2).subtract(p0);
+
+      Vector n1 = (v1.crossProduct(v2)).normalize();
+      Vector n2 = (v2.crossProduct(v3)).normalize();
+      Vector n3 = (v3.crossProduct(v1)).normalize();
+
+      double num1 = alignZero(n1.dotProduct(ray.getDir()));
+      double num2 = alignZero(n2.dotProduct(ray.getDir()));
+      double num3 = alignZero(n3.dotProduct(ray.getDir()));
+
+      // if there is an intersection point inside the triangle
+      if ((num1 > 0 && num2 > 0 && num3 > 0) || (num1 < 0 && num2 < 0 && num3 < 0)) {
+         return planePoints;
+      }
+
+      return null; // there isn't an intersection point inside the triangle
    }
+
 }

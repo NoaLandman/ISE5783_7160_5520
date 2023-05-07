@@ -10,6 +10,7 @@ import primitives.Vector;
 
 import java.util.List;
 
+import static primitives.Util.alignZero;
 import static primitives.Util.isZero;
 
 /** @author Avigail and Noa */
@@ -50,32 +51,24 @@ public class Cylinder extends Tube{
 
     @Override
     public Vector getNormal(Point point) {
-            Point firstBaseCenter=axisRay.getP0();
-            boolean isOnFirstBaseCenter=false;
-            Vector vecFirstBase=new Vector (1,1,1);
-            if(point.equals(firstBaseCenter))
-                isOnFirstBaseCenter=true;
-            else
-                vecFirstBase=point.subtract(firstBaseCenter);
+        Point o = axisRay.getP0();
+        Vector v = axisRay.getDir();
 
-            Point secondBaseCenter=axisRay.getP0().add(axisRay.getDir().scale(height));
-            boolean isOnSecondBaseCenter=false;
-            Vector vecSecondBase=new Vector (1,1,1);
-            if(point.equals(secondBaseCenter))
-                isOnSecondBaseCenter=true;
-            else
-                vecSecondBase=point.subtract(secondBaseCenter);
+        // projection of P-O on the ray:
+        double t;
+        try {
+            t = alignZero(point.subtract(o).dotProduct(v));
+        } catch (IllegalArgumentException e) { // P = O
+            return v;
+        }
 
+        // if the point is at a base
+        if (t == 0 || isZero(height - t)) // if it's close to 0, we'll get ZERO vector exception
+            return v;
 
-            //if the point is on the first base (and as decided - not on the border with the cylinder's side):
-            if(isOnFirstBaseCenter||(isZero(vecFirstBase.dotProduct(axisRay.getDir()))&&vecFirstBase.length()<this.radius))
-                return axisRay.getDir().normalize();
-                //if the point is on the second base (and as decided - not on the border with the cylinder's side):
-            else if(isOnSecondBaseCenter||(isZero(vecSecondBase.dotProduct(axisRay.getDir()))&&vecSecondBase.length()<this.radius))
-                return axisRay.getDir().normalize();
-                //if the point is on the cylinder's side:
-            else
-                return super.getNormal(point);
+        o = o.add(v.scale(t));
+        return point.subtract(o).normalize();
+
     }
     @Override
     public List<Point> findIntsersections(Ray ray) {

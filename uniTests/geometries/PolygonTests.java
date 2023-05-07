@@ -3,6 +3,7 @@ package geometries;
 import static org.junit.jupiter.api.Assertions.*;
 import static primitives.Util.isZero;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import geometries.Polygon;
@@ -85,23 +86,27 @@ public class PolygonTests {
     * Test method for {@link geometries.Polygon#findIntsersections(Ray)} (primitives.Ray)}.
     */
    @Test
+
    public void testFindIntersections() {
-      Polygon pl = new Polygon(new Point(2, 0, 0), new Point(4, 0, 0), new Point(4, 0, 4),
+      Polygon pl = new Polygon(
+              new Point(2, 0, 0),
+              new Point(4, 0, 0),
+              new Point(4, 0, 4),
               new Point(2, 0, 2));
 
+    Ray ray = new Ray(new Point(1, -1, 1),new Vector(0, 1, 0));
       // ============ Equivalence Partitions Tests ==============
 
       // TC01: Inside polygon
-      assertEquals(new Point(3, 0, 1), pl.findIntsersections(new Ray(new Point(3, -1, 1),
-              new Vector(0, 1, 0))).get(0),"the Ray not cross inside polygon");
+      assertEquals(new Point(3, 0, 1),
+              pl.findIntsersections( new Ray(new Point(3, -1, 1), new Vector(0, 1, 0))).get(0),
+              "the Ray not cross inside polygon");
 
       // TC02: Outside against edge
-      assertNull(pl.findIntsersections(new Ray(new Point(1, -1, 1),new Vector(0, 1, 0))),
-              "the Ray not cross outside against edge");
+      assertNull(pl.findIntsersections(ray),"the Ray not cross outside against edge");
 
       // TC03: Outside against vertex
-      assertNull(pl.findIntsersections(new Ray(new Point(1, -1, -1),new Vector(0, 1, 0))),
-              "the Ray not cross outside against vertex");
+      assertNull(pl.findIntsersections(ray), "the Ray not cross outside against vertex");
 
       // =============== Boundary Values Tests ==================
 

@@ -97,10 +97,16 @@ public class Plane implements Geometry {
     public List<Point> findIntsersections(Ray ray) {
         Point p0 = ray.getP0();
         Vector v = ray.getDir();
+
         Vector n = normal;
+
+        //ray cannot start from the plane
         if (q0.equals(p0))
             return null;
+
         double nv = alignZero(n.dotProduct(v));
+        // ray is lying in the plane axis
+
         if (isZero(nv))
             return null;
 
