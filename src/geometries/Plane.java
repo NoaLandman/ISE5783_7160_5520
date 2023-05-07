@@ -33,6 +33,7 @@ public class Plane implements Geometry {
         }
         else {this.normal = normal;
         }
+
     }
 
     /**
