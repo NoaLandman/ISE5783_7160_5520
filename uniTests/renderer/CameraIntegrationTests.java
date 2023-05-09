@@ -109,28 +109,17 @@ public class CameraIntegrationTests {
      * @return sum of intersections between "body" and every ray from "cam"
      */
     private int calcSumIntersection(Camera cam, Intersectable body, int nX, int nY) {
-        int count = 0;
-
-        List<Point> allpoints = null;
-
-        cam.setVPSize(3, 3);
-        cam.setVPDistance(1);
-        int nX1 = 3;
-        int nY1 = 3;
-        //view plane 3X3 (WxH 3X3 & nx,ny =3 => Rx,Ry =1)
-        for (int i = 0; i < nY; ++i) {
-            for (int j = 0; j < nX; ++j) {
-                var intersections = body.findIntsersections(cam.constructRayThroughPixel(nX, nY, j, i));
-                if (intersections != null) {
-                    if (allpoints == null) {
-                        allpoints = new LinkedList<>();
-                    }
-                    allpoints.addAll(intersections);
-                }
-                count += intersections == null ? 0 : intersections.size();
+        var rays = new LinkedList<Ray>();
+        for (int i = 0; i < nX; i++)
+            for (int j = 0; j < nY; j++) {
+                rays.add(cam.constructRayThroughPixel(nX, nY, j, i));
             }
+        var sumPoints = new LinkedList<Point>();
+        for (var ray : rays) {
+            var result = body.findIntsersections(ray);
+            if (result != null)
+                sumPoints.addAll(result);
         }
-        return count;
-
+        return sumPoints.size();
     }
 }
