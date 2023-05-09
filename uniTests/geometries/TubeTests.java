@@ -14,7 +14,7 @@ class TubeTests {
     @Test
     public void testGetNormal() {
         // ============ Equivalence Partitions Tests ==============
-        var tube = new Tube(1,new Ray( new Point(0, 0, 1),new Vector(0, 0, 1)));
+        Tube tube = new Tube(1,new Ray( new Point(0, 0, 1),new Vector(0, 0, 1)));
 
         // Check that the normal is correct
         assertEquals(new Point(1, 0, 0), tube.getNormal(new Point(1, 0, 6)),

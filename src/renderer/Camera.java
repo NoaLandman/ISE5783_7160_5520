@@ -60,6 +60,7 @@ public class Camera {
     public Camera(Point p0, Vector vTo, Vector vUp) {
         if(!isZero(vUp.dotProduct(vTo)))
             throw new IllegalArgumentException("Vectors are not vertical");
+
         this.p0 = p0;
         this.vUp = vUp.normalize();
         this.vTo = vTo.normalize();
