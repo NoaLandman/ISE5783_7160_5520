@@ -5,10 +5,9 @@
  The camera is defined by its position, its "up" and "to" vectors, and the dimensions and distance of the virtual image plane.
  */
 package renderer;
-import primitives.Point;
-import primitives.Ray;
-import primitives.Util;
-import primitives.Vector;
+import primitives.*;
+
+import java.util.MissingResourceException;
 
 import static primitives.Util.isZero;
 
@@ -47,7 +46,15 @@ public class Camera {
      * The distance between the camera and the virtual image plane.
      */
     private double distance;
+    /**
+     * The ImageWriter object for rendering the image.
+     */
+    private ImageWriter imageWriter;
 
+    /**
+     * The RayTracerBase object for tracing rays.
+     */
+    private RayTracerBase rayTracer;
     /**
      * Construct a new Camera object with the specified position, "up" vector and "to" vector.
      * The "right" vector is calculated automatically.
@@ -128,4 +135,101 @@ public class Camera {
 
         return new Ray(p0, Vij);
     }
+    /**
+
+     Sets the ImageWriter object for rendering the image.
+     @param imageWriter The ImageWriter object.
+     @return This Camera object, to enable method chaining.
+     */
+    public Camera setImageWriter(ImageWriter imageWriter) {
+        this.imageWriter = imageWriter;
+        return this;
+    }
+    /**
+
+     Sets the RayTracerBase object for tracing rays.
+     @param rayTracerBase The RayTracerBase object.
+     @return This Camera object, to enable method chaining.
+     */
+    public Camera setRayTracerBase(RayTracerBase rayTracerBase) {
+        this.rayTracer = rayTracerBase;
+        return this;
+    }
+    /**
+
+     Renders the image by casting rays through each pixel on the virtual image plane.
+     It uses the ImageWriter and RayTracerBase objects set for this Camera.
+     @return This Camera object, to enable method chaining.
+     @throws MissingResourceException If the ImageWriter, RayTracerBase, p0, vTo, vUp, or vRight is not set.
+     */
+    public Camera renderImage() {
+        try {
+            if (imageWriter == null) {
+                throw new MissingResourceException("missing resource", ImageWriter.class.getName(), "");
+            }
+            if (rayTracer == null) {
+                throw new MissingResourceException("missing resource", RayTracerBase.class.getName(), "");
+            }
+            if (p0 == null) {
+                throw new MissingResourceException("missing resource", Point.class.getName(), "");
+            }
+            if (vTo == null) {
+                throw new MissingResourceException("missing resource", Vector.class.getName(), "");
+            }
+            if (vUp == null) {
+                throw new MissingResourceException("missing resource", Vector.class.getName(), "");
+            }
+            if (vRight == null) {
+                throw new MissingResourceException("missing resource", Vector.class.getName(), "");
+            }
+            for (int i = 0; i < imageWriter.getNy(); i++) {
+                for (int j = 0; j < imageWriter.getNx(); j++) {
+                    castRay(imageWriter.getNx(), imageWriter.getNy(), j, i);
+                }
+            }
+        } catch (MissingResourceException e) {
+            throw new UnsupportedOperationException("Not implemented yet" + e.getClassName());
+        }
+        return this;
+    }
+    /**
+
+     Prints a grid on the image with a given interval and color.
+     The ImageWriter object must be set before calling this method.
+     @param interval The interval between grid lines.
+     @param color The color of the grid lines.
+     @throws MissingResourceException If the ImageWriter is not set.
+     */
+    public void printGrid(int interval, Color color) {
+        if (this.imageWriter == null)
+            throw new MissingResourceException("image writer failed", null, null);
+        var writer = new ImageWriter("firstImage", 800, 500);
+        for (int i = 0; i < 500; i++) {
+            for (int j = 0; j < 800; j++) {
+                if (i % interval == 0 || j % interval == 0 || i == 799 || j == 499)
+                    writer.writePixel(j, i, color);
+                else
+                    writer.writePixel(j, i, new primitives.Color(0, 0, 255));
+            }
+        }
+        writer.writeToImage();
+    }
+    /**
+
+     Writes the rendered image to the ImageWriter object.
+     The ImageWriter object must be set before calling this method.
+     @throws MissingResourceException If the ImageWriter is not set.
+     */
+    public void writeToImage()
+    {
+        if(this.imageWriter==null)
+            throw new MissingResourceException("image writer failed", null, null);
+        imageWriter.writeToImage();
+    }
+    private void castRay(int nX, int nY, int col, int row) {
+        Ray ray = constructRayThroughPixel(nX, nY, col, row);
+        Color color = rayTracer.traceRay(ray);
+        imageWriter.writePixel(col, row, color);
+    }
+
 }

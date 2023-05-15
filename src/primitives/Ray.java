@@ -1,5 +1,7 @@
 package primitives;
 
+import java.util.List;
+
 /**
  * The Ray class represents a Ray in 3D space.
  *
@@ -74,5 +76,26 @@ public class Ray {
      */
     public Point getPoint(double t) {
         return p0.add(dir.scale(t));
+    }
+    /**
+     * search from list of points what is the closest point to the ray and return is
+     * back
+     *
+     * @param intersections - list of points we want to scan
+     * @return the closest point to the ray
+     */
+    public Point findClosestPoint(List<Point> intersections) {
+        if (intersections == null)
+            return null;
+        Point minPoint = null;
+        double minDistance = Double.POSITIVE_INFINITY;
+        for (Point item : intersections) {
+            double d = item.distance(p0);
+            if (d < minDistance) {
+                minPoint = item;
+                minDistance = d;
+            }
+        }
+        return minPoint;
     }
 }
