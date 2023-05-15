@@ -27,6 +27,7 @@ public class RayTracerBasic extends RayTracerBase{
         }
         // No intersections
         return scene.background;
+
     }
 
     /**
