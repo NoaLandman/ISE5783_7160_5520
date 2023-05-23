@@ -148,6 +148,7 @@ public class LightsTests {
                 .setRayTracerBase(new RayTracerBasic(scene2)) //
                 .renderImage() //
                 .writeToImage(); //
+
     }
 
     /**
