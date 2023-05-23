@@ -6,7 +6,7 @@
  */
 package geometries;
 /** @author Avigail and Noa */
-public abstract class RadialGeometry implements Geometry {
+public abstract class RadialGeometry extends Geometry {
 
     /**
      * The radius of the RadialGeometry object.
@@ -20,4 +20,5 @@ public abstract class RadialGeometry implements Geometry {
     public RadialGeometry(double radius) {
         this.radius = radius;
     }
+
 }

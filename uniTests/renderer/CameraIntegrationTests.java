@@ -5,16 +5,13 @@ import geometries.Plane;
 import geometries.Sphere;
 import geometries.Triangle;
 import org.junit.jupiter.api.Test;
-import primitives.Double3;
 import primitives.Point;
 import primitives.Ray;
 import primitives.Vector;
-import renderer.Camera;
 
 import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -133,7 +130,7 @@ public class CameraIntegrationTests {
 
         var result2 =rays
                 .stream()
-                .map(x -> body.findIntsersections(x))
+                .map(x -> body.findIntersections(x))
                 .filter(x -> x != null)
                 .flatMap(List::stream)
                 .collect(Collectors.toList())

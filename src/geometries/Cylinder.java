@@ -70,9 +70,6 @@ public class Cylinder extends Tube{
         return point.subtract(o).normalize();
 
     }
-    @Override
-    public List<Point> findIntsersections(Ray ray) {
-        return null;
-    }
+
 }
 

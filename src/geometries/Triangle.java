@@ -8,11 +8,8 @@ package geometries;
 
 import primitives.Point;
 import primitives.Ray;
-import primitives.Util;
 import primitives.Vector;
 
-import javax.lang.model.type.NullType;
-import java.util.LinkedList;
 import java.util.List;
 
 import static primitives.Util.alignZero;
@@ -38,12 +35,12 @@ public class Triangle extends Polygon {
      * @param ray the ray to find the intersection points with
      * @return a list of intersection points, or null if there are no intersections
      */
+
     @Override
-    public List<Point> findIntsersections(Ray ray) {
+    protected List<GeoPoint> findGeoIntersectionsHelper(Ray ray) {
+        List<GeoPoint> planePoints = plane.findGeoIntersections(ray);
 
-        List<Point> planePoints = plane.findIntsersections(ray);
-
-        if(planePoints== null){
+        if (planePoints == null) {
             return null;
         }
 
@@ -65,9 +62,9 @@ public class Triangle extends Polygon {
 
         // if there is an intersection point inside the triangle
         if ((num1 > 0 && num2 > 0 && num3 > 0) || (num1 < 0 && num2 < 0 && num3 < 0)) {
-            return planePoints;
+            return List.of(new GeoPoint(this,planePoints.get(0).point));
         }
 
-        return null; // there isn't an intersection point inside the triangle
+        return null; // there isn't an intersection point inside the triangle    }
     }
 }

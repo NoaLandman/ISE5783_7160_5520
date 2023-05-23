@@ -13,7 +13,7 @@ import java.util.List;
 import static primitives.Util.alignZero;
 import static primitives.Util.isZero;
 
-public class Plane implements Geometry {
+public class Plane extends Geometry {
 
     /* the reference point of the plane*/
     private final Point q0;
@@ -94,8 +94,9 @@ public class Plane implements Geometry {
      * @return a list of intersection points, or null if there are no intersections
      */
 
+
     @Override
-    public List<Point> findIntsersections(Ray ray) {
+    protected List<GeoPoint> findGeoIntersectionsHelper(Ray ray) {
         Point p0 = ray.getP0();
         Vector v = ray.getDir();
 
@@ -121,7 +122,7 @@ public class Plane implements Geometry {
         // t should be bigger than 0
         if (t<=0)
             return null;
-        return List.of(ray.getPoint(t));
+        return List.of(new GeoPoint(this, ray.getPoint(t)));
     }
 }
 

@@ -1,9 +1,10 @@
 /**
-
-*Sphere class Represents a sphere in 3D space with a given radius and center point.
- *@author: Avigail Tenenbaum and Noa Landman
+ * Sphere class Represents a sphere in 3D space with a given radius and center point.
+ *
+ * @author: Avigail Tenenbaum and Noa Landman
  */
 package geometries;
+
 import primitives.Point;
 import primitives.Ray;
 import primitives.Vector;
@@ -39,8 +40,8 @@ public class Sphere extends RadialGeometry {
      */
     @Override
     public Vector getNormal(Point point) {
-       /** if(center.distance(point)!=radius)
-            throw new IllegalArgumentException("the point has to be on the sphere");**/
+        /** if(center.distance(point)!=radius)
+         throw new IllegalArgumentException("the point has to be on the sphere");**/
         return point.subtract(center).normalize();
     }
 
@@ -52,23 +53,38 @@ public class Sphere extends RadialGeometry {
      */
 
     @Override
-    public List<Point> findIntsersections(Ray ray) {
+    protected List<GeoPoint> findGeoIntersectionsHelper(Ray ray) {
         if (ray.getP0().equals(center))
-            return List.of(ray.getPoint(radius));
-        Vector v= center.subtract(ray.getP0());
-        double d1=alignZero (ray.getDir().dotProduct(v));
-        double d2= alignZero(Math.sqrt(v.lengthSquared()-d1*d1));
-        if(d2>=radius||isZero(d2-radius))
+            return List.of(new GeoPoint(this, ray.getPoint(radius)));
+
+        Vector v = center.subtract(ray.getP0());
+
+        Point p0 = ray.getP0();
+        Vector dir = ray.getDir();
+
+        double d1 = alignZero(ray.getDir().dotProduct(v));
+        double d2 = alignZero(Math.sqrt(v.lengthSquared() - d1 * d1));
+
+        if (d2 >= radius || isZero(d2 - radius))
             return null;
         if (d2 >= radius || isZero(d2 - radius))
             return null;
-        double d =alignZero( Math.sqrt(radius * radius - d2 * d2));
+
+        double d = alignZero(Math.sqrt(radius * radius - d2 * d2));
+
         if (d1 - d > 0 && d1 + d > 0)
-            return List.of(ray.getP0().add(ray.getDir().scale(d1 - d))
-                    , ray.getP0().add(ray.getDir().scale(d1 + d)));
+            return List.of(
+                    new GeoPoint(this, ray.getPoint(d1 - d)),
+                    new GeoPoint(this, ray.getPoint(d1 + d)));
+
         if (d1 - d > 0 && !(d1 + d > 0))
-            return List.of(ray.getP0().add(ray.getDir().scale(d1 - d)));
+            return List.of(
+                    new GeoPoint(this, ray.getPoint(d1 - d)));
+
         if (!(d1 - d > 0) && d1 + d > 0)
-            return List.of(ray.getP0().add(ray.getDir().scale(d1 + d)));
-        return null;    }
+            return List.of(
+                    new GeoPoint(this, ray.getPoint(d1 + d)));
+
+        return null;
+    }
 }

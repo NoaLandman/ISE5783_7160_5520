@@ -1,69 +1,69 @@
 package geometries;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
 
 import primitives.*;
 
 
-
 /**
- * Geometries' class.
- * Represents a collection of geometries.
+
+ Geometries' class.
+
+ Represents a collection of geometries.
  */
-public class Geometries implements Intersectable
-{
+public class Geometries extends Intersectable {
 
-    private List<Intersectable> geometriesInScene;
+    private List<Intersectable> geometries;
 
     /**
-     * A default constructor that create new empty arrayList intersectable-geometries
+
+     A default constructor that creates a new empty ArrayList of intersectable geometries.
      */
-    public Geometries(){
-        //we have chosen in ArrayList because this class will works in better running time when the application demands storing the data and accessing it.
-        geometriesInScene = new ArrayList<Intersectable>();
+    public Geometries() {
+        geometries = new ArrayList<>();
     }
-
     /**
-     * Constructor that receives list of geometries and put them in new arrayList
-     * @param geometries
-     * */
-    public Geometries(Intersectable... geometries){
-        geometriesInScene =  new ArrayList<Intersectable>(Arrays.asList(geometries));
+
+     Constructor that receives a list of geometries and puts them in a new ArrayList.
+     @param geometries The list of geometries to add.
+     */
+    public Geometries(Intersectable... geometries) {
+        this.geometries = new ArrayList<>(Arrays.asList(geometries));
     }
-
     /**
-     * A function that add the geometries the receive to the list.
-     * @param geometries
-     * */
-    public void add(Intersectable... geometries){
-        if (geometries != null)
-        {
-            geometriesInScene.addAll(Arrays.asList(geometries));
+
+     Adds the specified geometries to the list.
+     @param geometries The geometries to add.
+     */
+    public void add(Intersectable... geometries) {
+        if (geometries != null) {
+            this.geometries.addAll(Arrays.asList(geometries));
         }
     }
+    /**
 
+     Finds the geometric intersections of the geometries in the collection with the given ray.
 
+     @param ray The ray to intersect with the geometries.
 
-
+     @return A list of GeoPoint objects representing the intersections, or null if there are no intersections.
+     */
     @Override
-    public List<Point> findIntsersections(Ray myRay) {
-        if(this.geometriesInScene.isEmpty())
+    protected List<GeoPoint> findGeoIntersectionsHelper(Ray ray) {
+        if (this.geometries.isEmpty())
             return null;
-        List<Point> temp = new ArrayList<Point>();
-        for (Intersectable intersectable : geometriesInScene)
-        {
-            List<Point> intersection = intersectable.findIntsersections(myRay);
-            if (intersection != null)
-                temp.addAll(intersection);
+        List<GeoPoint> temp = new ArrayList<>();
+        for (Intersectable intersectable : geometries) {
+            List<GeoPoint> intersections = intersectable.findGeoIntersections(ray);
+            if (intersections != null)
+                temp.addAll(intersections);
         }
 
         if (temp.isEmpty())
             return null;
         return temp;
     }
-
-
-
 }
 
