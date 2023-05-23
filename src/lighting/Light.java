@@ -14,7 +14,7 @@ public abstract class Light {
 
      The intensity (color and brightness) of the light.
      */
-    final Color intensity;
+    protected final Color intensity;
     /**
 
      Constructs a Light object with the specified intensity.

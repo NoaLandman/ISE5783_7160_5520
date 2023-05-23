@@ -82,7 +82,7 @@ public class Point {
     public double distanceSquared(Point other){
         return (xyz.d1 - other.xyz.d1)*(xyz.d1 - other.xyz.d1)+
                 (xyz.d2 - other.xyz.d2)*(xyz.d2 - other.xyz.d2)+
-                (xyz.d3 - other.xyz.d3)*(xyz.d1 - other.xyz.d3);
+                (xyz.d3 - other.xyz.d3)*(xyz.d3 - other.xyz.d3);
     }
 
     /**

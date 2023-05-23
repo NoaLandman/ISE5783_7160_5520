@@ -62,7 +62,11 @@ public class LightsTests {
     private final Vector trianglesLightDirection = new Vector(-2, -2, -2);
 
     private final Geometry sphere = new Sphere(SPHERE_RADIUS, sphereCenter)
-            .setEmission(sphereColor).setMaterial(new Material().setkD(KD).setkS(KS).setNshininess(SHININESS));
+            .setEmission(sphereColor)
+            .setMaterial(new Material()
+                    .setkD(KD)
+                    .setkS(KS)
+                    .setNshininess(SHININESS));
     private final Geometry triangle1 = new Triangle(vertices[0], vertices[1], vertices[2])
             .setMaterial(material);
     private final Geometry triangle2 = new Triangle(vertices[0], vertices[1], vertices[3])

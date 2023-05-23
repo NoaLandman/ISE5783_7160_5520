@@ -44,7 +44,8 @@ public class SpotLight extends PointLight {
      */
     @Override
     public Color getIntensity(Point p) {
-        double proj = direction.dotProduct(getL(p)); //direction*(psition-p) , projection of light on point
+        //direction*(psition-p) , projection of light on point
+        double proj = direction.dotProduct(getL(p));
         //if the light source doesn't hit the point return color black
         if (isZero(proj))
             return Color.BLACK;
@@ -54,14 +55,5 @@ public class SpotLight extends PointLight {
 
         return i0.scale(factor);
     }
-    /**
 
-     Returns the direction from the light source to the given point.
-     @param p The point for which to calculate the direction.
-     @return The direction vector.
-     */
-    @Override
-    public Vector getL(Point p) {
-        return super.getL(p);
-    }
-}
+  }
