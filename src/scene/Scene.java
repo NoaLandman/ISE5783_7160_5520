@@ -24,7 +24,7 @@ public class Scene {
         lights= builder.lights;
     }
 
-        public static class SceneBuilder {
+    public static class SceneBuilder {
         private final String name;
         private Color background = Color.BLACK;
         private AmbientLight ambientLight = AmbientLight.NONE;
@@ -61,5 +61,4 @@ public class Scene {
             return new Scene(this);
         }
     }
-
 }
