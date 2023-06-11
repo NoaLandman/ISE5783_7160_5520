@@ -11,10 +11,36 @@ import geometries.Intersectable.GeoPoint;
 */
 /**
  * The Ray class represents a Ray in 3D space.
- *
+ * <p>
  * ...
  *
  * @author Avigail Tenenbaum and Noa Landman
+ * <p>
+ * Constructor for Ray.
+ * @param p0  The starting point of the Ray
+ * @param dir The direction of the Ray
+ * <p>
+ * Getter for p0.
+ * @return The starting point of the Ray
+ * <p>
+ * Getter for dir.
+ * @return The direction of the Ray
+ * <p>
+ * Overrides the toString method of Object class.
+ * @return A String representation of the Ray object
+ * <p>
+ * Overrides the equals method of Object class.
+ * @param obj The object to compare for equality
+ * @return true if this Ray and obj are equal, false otherwise
+ * <p>
+ * Computes a point along the Ray at a given distance.
+ * @param t The distance from the starting point of the Ray
+ * @return The point along the Ray at the given distance
+ * <p>
+ * search from list of points what is the closest point to the ray and return is
+ * back
+ * @param points - list of points we want to scan
+ * @return the closest point to the ray
  *//*
 
 public class Ray {
@@ -24,11 +50,11 @@ public class Ray {
 
     */
 /**
-     * Constructor for Ray.
-     *
-     * @param p0  The starting point of the Ray
-     * @param dir The direction of the Ray
-     *//*
+ * Constructor for Ray.
+ *
+ * @param p0  The starting point of the Ray
+ * @param dir The direction of the Ray
+ *//*
 
     public Ray(Point p0, Vector dir) {
         this.p0 = p0;
@@ -38,10 +64,10 @@ public class Ray {
 
     */
 /**
-     * Getter for p0.
-     *
-     * @return The starting point of the Ray
-     *//*
+ * Getter for p0.
+ *
+ * @return The starting point of the Ray
+ *//*
 
     public Point getP0() {
         return p0;
@@ -49,10 +75,10 @@ public class Ray {
 
     */
 /**
-     * Getter for dir.
-     *
-     * @return The direction of the Ray
-     *//*
+ * Getter for dir.
+ *
+ * @return The direction of the Ray
+ *//*
 
     public Vector getDir() {
         return dir;
@@ -60,10 +86,10 @@ public class Ray {
 
     */
 /**
-     * Overrides the toString method of Object class.
-     *
-     * @return A String representation of the Ray object
-     *//*
+ * Overrides the toString method of Object class.
+ *
+ * @return A String representation of the Ray object
+ *//*
 
     @Override
     public String toString() {
@@ -74,11 +100,11 @@ public class Ray {
 
     */
 /**
-     * Overrides the equals method of Object class.
-     *
-     * @param obj The object to compare for equality
-     * @return true if this Ray and obj are equal, false otherwise
-     *//*
+ * Overrides the equals method of Object class.
+ *
+ * @param obj The object to compare for equality
+ * @return true if this Ray and obj are equal, false otherwise
+ *//*
 
     @Override
     public boolean equals(Object obj) {
@@ -90,23 +116,23 @@ public class Ray {
 
     */
 /**
-     * Computes a point along the Ray at a given distance.
-     *
-     * @param t The distance from the starting point of the Ray
-     * @return The point along the Ray at the given distance
-     *//*
+ * Computes a point along the Ray at a given distance.
+ *
+ * @param t The distance from the starting point of the Ray
+ * @return The point along the Ray at the given distance
+ *//*
 
     public Point getPoint(double t) {
         return p0.add(dir.scale(t));
     }
     */
 /**
-     * search from list of points what is the closest point to the ray and return is
-     * back
-     *
-     * @param points - list of points we want to scan
-     * @return the closest point to the ray
-     *//*
+ * search from list of points what is the closest point to the ray and return is
+ * back
+ *
+ * @param points - list of points we want to scan
+ * @return the closest point to the ray
+ *//*
 
     public Point findClosestPoint(List<Point> points) {
         return points == null || points.isEmpty() ? null
@@ -128,6 +154,7 @@ public class Ray {
     }
 }*/
 package primitives;
+
 import geometries.Intersectable.GeoPoint;
 
 import java.util.List;
@@ -138,9 +165,9 @@ import static primitives.Util.isZero;
  * Represents a ray in 3D space, defined by a starting point and a direction vector.
  */
 public class Ray {
+    private static final double DELTA = 0.1;
     final private Point p0;
     final private Vector dir;
-    private static final double DELTA = 0.1;
 
     /**
      * Constructs a new ray with the given starting point and direction vector.
@@ -151,14 +178,28 @@ public class Ray {
      */
     public Ray(Point p0, Vector dir) {
         this.p0 = p0;
-        if(dir.lengthSquared()==1)
-        {
-            this.dir=dir;
-        }
-        else {
+        if (dir.lengthSquared() == 1) {
+            this.dir = dir;
+        } else {
             this.dir = dir.normalize();
         }
     }
+
+    /**
+     * this constructor is special its create ray but it also move the head point in
+     * the normal direction in DELTA or -DELTA (depend on the dotProduct)
+     *
+     * @param p0 - a point of ray
+     * @param dir - a direction of ray
+     * @param n -normal to the head point
+     */
+
+    public Ray(Point p0, Vector n, Vector dir) {
+        double eps = dir.dotProduct(n) >= 0 ? DELTA : -DELTA;
+        this.p0 = p0.add(n.scale(eps));
+        this.dir = dir.normalize();
+    }
+
     @Override
     public boolean equals(Object obj) {
         if (this == obj) return true;
@@ -166,39 +207,41 @@ public class Ray {
             return this.p0.equals(other.p0) && this.dir.equals(other.dir);
         return false;
     }
+
     @Override
-    public String toString()
-    {
+    public String toString() {
         return "Ray: " +
-                "p0="+p0+
-                ", dir="+dir.xyz;
+                "p0=" + p0 +
+                ", dir=" + dir.xyz;
     }
+
     // p0.toString()+' '+ dir.toString()
     public Point getP0() {
         return p0;
     }
-    /* Returns the direction of this Ray*/
-        public Vector getDir() {
-            return dir;
-        }
-        public Point getPoint(double t)
-        {
-            if(isZero(t))
-            {
-                return p0;
-            }
-            return p0.add(dir.scale(t));
-        }
 
-        public Point findClosestPoint(List<Point> points) {
-            return points == null || points.isEmpty() ? null
-                    : findClosestGeoPoint(points.stream().map(p -> new GeoPoint(null, p)).toList()).point;
+    /* Returns the direction of this Ray*/
+    public Vector getDir() {
+        return dir;
+    }
+
+    public Point getPoint(double t) {
+        if (isZero(t)) {
+            return p0;
         }
-        /**
-         * get the closest GeoPoint in the list of points
-         * @param points list of intersection points
-         * @return the closest point
-         */
+        return p0.add(dir.scale(t));
+    }
+
+    public Point findClosestPoint(List<Point> points) {
+        return points == null || points.isEmpty() ? null
+                : findClosestGeoPoint(points.stream().map(p -> new GeoPoint(null, p)).toList()).point;
+    }
+
+    /**
+     * get the closest GeoPoint in the list of points
+     * @param points list of intersection points
+     * @return the closest point
+     */
     public GeoPoint findClosestGeoPoint(List<GeoPoint> points) {
         if (points == null)
             return null;
@@ -210,19 +253,5 @@ public class Ray {
         }
 
         return myPoint;
-    }
-/**
- * this constructor is special its create ray but it also move the head point in
- * the normal direction in DELTA or -DELTA (depend on the dotProduct)
- *
- * @param p0 - a point of ray
- * @param dir - a direction of ray
- * @param n -normal to the head point
- */
-
-    public Ray(Point p0, Vector n, Vector dir) {
-        double eps= dir.dotProduct(n)>=0? DELTA :-DELTA;
-        this.p0 = p0.add(n.scale(eps));
-        this.dir = dir.normalize();
     }
 }

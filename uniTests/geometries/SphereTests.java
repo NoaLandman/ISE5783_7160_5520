@@ -7,8 +7,12 @@ import primitives.Vector;
 
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
-/** @author Avigail and Noa */
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
+
+/**
+ * @author Avigail and Noa
+ */
 
 class SphereTests {
 
@@ -18,12 +22,13 @@ class SphereTests {
     @Test
     public void testGetNormal() {
         // ============ Equivalence Partitions Tests ==============
-        var ball = new Sphere(1,new Point(0, 0, 0));
+        var ball = new Sphere(1, new Point(0, 0, 0));
 
         // Check that the normal is correct
-        assertEquals( new Vector(1, 0, 0),
-                ball.getNormal(new Point(1, 0, 0)),"getNormal(Point) -The normal to the Sphere is not correct ");
+        assertEquals(new Vector(1, 0, 0),
+                ball.getNormal(new Point(1, 0, 0)), "getNormal(Point) -The normal to the Sphere is not correct ");
     }
+
     /**
      * Test method for {@link geometries.Sphere#findIntersections(Ray)} (primitives.Ray)}.
      */

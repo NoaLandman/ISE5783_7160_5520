@@ -128,7 +128,7 @@ public class CameraIntegrationTests {
                 rays.add(cam.constructRayThroughPixel(nX, nY, column, row));
             }
 
-        var result2 =rays
+        var result2 = rays
                 .stream()
                 .map(x -> body.findIntersections(x))
                 .filter(x -> x != null)

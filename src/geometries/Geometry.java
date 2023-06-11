@@ -7,10 +7,13 @@
 package geometries;
 
 import primitives.Color;
+import primitives.Material;
 import primitives.Point;
 import primitives.Vector;
-import primitives.Material;
-/** @author Avigail and Noa */
+
+/**
+ * @author Avigail and Noa
+ */
 public abstract class Geometry extends Intersectable {
 
     protected Color emission = Color.BLACK;

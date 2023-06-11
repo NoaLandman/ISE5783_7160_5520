@@ -14,7 +14,9 @@ import java.util.List;
 
 import static primitives.Util.alignZero;
 
-/** @author Avigail and Noa */
+/**
+ * @author Avigail and Noa
+ */
 
 public class Triangle extends Polygon {
 
@@ -62,7 +64,7 @@ public class Triangle extends Polygon {
 
         // if there is an intersection point inside the triangle
         if ((num1 > 0 && num2 > 0 && num3 > 0) || (num1 < 0 && num2 < 0 && num3 < 0)) {
-            return List.of(new GeoPoint(this,planePoints.get(0).point));
+            return List.of(new GeoPoint(this, planePoints.get(0).point));
         }
 
         return null; // there isn't an intersection point inside the triangle    }

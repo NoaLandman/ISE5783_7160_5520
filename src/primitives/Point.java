@@ -1,15 +1,18 @@
 /**
-
- Point represents a point in three-dimensional space.
- It is represented by a Double3 object which holds the x, y, and z coordinates.
- @author: Avigail Tenenbaum and Noa Landman
+ * Point represents a point in three-dimensional space.
+ * It is represented by a Double3 object which holds the x, y, and z coordinates.
+ *
+ * @author: Avigail Tenenbaum and Noa Landman
  */
 package primitives;
+
 import java.util.Objects;
+
 /** @author Avigail and Noa */
 public class Point {
 
-      final Double3 xyz;
+    final Double3 xyz;
+
     /**
      * Constructs a new Point object with the specified x, y, and z coordinates.
      *
@@ -26,7 +29,7 @@ public class Point {
      *
      * @param double3 the Double3 object representing the point's coordinates
      */
-     Point(Double3 double3){
+    Point(Double3 double3) {
         this(double3.d1, double3.d2, double3.d3);
     }
 
@@ -60,7 +63,7 @@ public class Point {
      */
     @Override
     public String toString() {
-        return "Point :" + xyz ;
+        return "Point :" + xyz;
     }
 
     /**
@@ -69,7 +72,7 @@ public class Point {
      * @param other the other Point to calculate the distance to
      * @return the Euclidean distance between this Point and the specified Point
      */
-    public double distance(Point other){
+    public double distance(Point other) {
         return Math.sqrt(distanceSquared(other));
     }
 
@@ -79,10 +82,10 @@ public class Point {
      * @param other the other Point to calculate the squared distance to
      * @return the square of the Euclidean distance between this Point and the specified Point
      */
-    public double distanceSquared(Point other){
-        return (xyz.d1 - other.xyz.d1)*(xyz.d1 - other.xyz.d1)+
-                (xyz.d2 - other.xyz.d2)*(xyz.d2 - other.xyz.d2)+
-                (xyz.d3 - other.xyz.d3)*(xyz.d3 - other.xyz.d3);
+    public double distanceSquared(Point other) {
+        return (xyz.d1 - other.xyz.d1) * (xyz.d1 - other.xyz.d1) +
+                (xyz.d2 - other.xyz.d2) * (xyz.d2 - other.xyz.d2) +
+                (xyz.d3 - other.xyz.d3) * (xyz.d3 - other.xyz.d3);
     }
 
     /**
@@ -102,8 +105,9 @@ public class Point {
      * @return the Vector that represents the difference between this Point and the specified Point
      */
     public Vector subtract(Point point) {
-        return  new Vector(this.xyz.subtract(point.xyz));
+        return new Vector(this.xyz.subtract(point.xyz));
     }
+
     /**
      * Returns the x-coordinate of this Point.
      *

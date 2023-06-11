@@ -1,9 +1,10 @@
 /**
-
- A plane geometry defined by a point and a normal vector or three points
- @author: Avigail Tenenbaum and Noa Landman
+ * A plane geometry defined by a point and a normal vector or three points
+ *
+ * @author: Avigail Tenenbaum and Noa Landman
  */
 package geometries;
+
 import primitives.Point;
 import primitives.Ray;
 import primitives.Vector;
@@ -28,10 +29,10 @@ public class Plane extends Geometry {
      */
     public Plane(Point q0, Vector normal) {
         this.q0 = q0;
-        if(!(isZero(normal.length()-1d))){
+        if (!(isZero(normal.length() - 1d))) {
             this.normal = normal.normalize();
-        }
-        else {this.normal = normal;
+        } else {
+            this.normal = normal;
         }
 
     }
@@ -44,13 +45,13 @@ public class Plane extends Geometry {
      */
     public Plane(Point p1, Point p2, Point p3) {
         this.q0 = p1;
-        if(p1.equals(p2)||p1.equals(p3)||p2.equals(p3))
+        if (p1.equals(p2) || p1.equals(p3) || p2.equals(p3))
             throw new IllegalArgumentException("two of the points are identical");
 
 
         Vector U = p2.subtract(p1);
         Vector V = p3.subtract(p1);
-        if(U.normalize().equals(V.normalize()))
+        if (U.normalize().equals(V.normalize()))
             throw new IllegalArgumentException("there is a linear dependents between the vectors");
         //right hand rule
         Vector N = U.crossProduct(V);
@@ -120,7 +121,7 @@ public class Plane extends Geometry {
 
         double t = alignZero(nP0Q0 / nv);
         // t should be bigger than 0
-        if (t<=0)
+        if (t <= 0)
             return null;
         return List.of(new GeoPoint(this, ray.getPoint(t)));
     }

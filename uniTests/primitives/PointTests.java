@@ -2,19 +2,21 @@ package primitives;
 
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class PointTests {
 
     /**
      * Test method for {@link primitives.Point#add(primitives.Vector)}.
      */
-    Point p=new Point(1,1,1);
+    Point p = new Point(1, 1, 1);
+
     @Test
     void testAdd() {
         // ============ Equivalence Partitions Tests ==============
         // TC01: Simple test
-        assertEquals(new Point(2, 3, 4),p.add(new Vector(1, 2, 3)), //
+        assertEquals(new Point(2, 3, 4), p.add(new Vector(1, 2, 3)), //
                 "Wrong point add");
 
 

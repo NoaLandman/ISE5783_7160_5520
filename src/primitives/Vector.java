@@ -1,11 +1,12 @@
 /**
-
- The Vector class represents a mathematical vector in 3D space.
- It extends the Point class.
- @author: Avigail Tenenbaum and Noa Landman
- @version 1.0
+ * The Vector class represents a mathematical vector in 3D space.
+ * It extends the Point class.
+ *
+ * @author: Avigail Tenenbaum and Noa Landman
+ * @version 1.0
  */
 package primitives;
+
 /** @author Avigail and Noa */
 public class Vector extends Point {
 
@@ -28,7 +29,7 @@ public class Vector extends Point {
      *
      * @param double3 the Double3 object containing the x, y, and z coordinates of the vector
      */
-     Vector(Double3 double3) {
+    Vector(Double3 double3) {
         this(double3.d1, double3.d2, double3.d3);
     }
 
@@ -72,7 +73,7 @@ public class Vector extends Point {
      * @return a new normalized vector
      */
     public Vector normalize() {
-        double length=length();
+        double length = length();
         return new Vector(xyz.reduce(length));
     }
 
@@ -83,9 +84,9 @@ public class Vector extends Point {
      * @return the dot product of the two vectors
      */
     public double dotProduct(Vector u) {
-        return this.xyz.d1*u.xyz.d1+
-                this.xyz.d2*u.xyz.d2+
-                this.xyz.d3*u.xyz.d3;
+        return this.xyz.d1 * u.xyz.d1 +
+                this.xyz.d2 * u.xyz.d2 +
+                this.xyz.d3 * u.xyz.d3;
     }
 
     /**
@@ -95,10 +96,10 @@ public class Vector extends Point {
      * @return a new Vector object that is the cross product of the two vectors
      */
     public Vector crossProduct(Vector u) {
-        double x=this.xyz.d2*u.xyz.d3-this.xyz.d3*u.xyz.d2;
-        double y=(-1)*(this.xyz.d1*u.xyz.d3-this.xyz.d3*u.xyz.d1);
-        double z=this.xyz.d1*u.xyz.d2-this.xyz.d2*u.xyz.d1;
-        return new Vector(x,y,z);
+        double x = this.xyz.d2 * u.xyz.d3 - this.xyz.d3 * u.xyz.d2;
+        double y = (-1) * (this.xyz.d1 * u.xyz.d3 - this.xyz.d3 * u.xyz.d1);
+        double z = this.xyz.d1 * u.xyz.d2 - this.xyz.d2 * u.xyz.d1;
+        return new Vector(x, y, z);
     }
 
     /**
@@ -112,11 +113,11 @@ public class Vector extends Point {
     }
 
     /**
-     * 
+     *
      * @param  scalar in which the vector is multiplied
      * @return a new vector multiplied by scalar
      */
-    public Vector scale(double scalar){
+    public Vector scale(double scalar) {
         return new Vector((super.xyz.scale(scalar)));
     }
 }

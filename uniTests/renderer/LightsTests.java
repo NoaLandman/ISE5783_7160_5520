@@ -1,13 +1,18 @@
 package renderer;
 
-import static java.awt.Color.*;
-
+import geometries.Geometry;
+import geometries.Sphere;
+import geometries.Triangle;
+import lighting.AmbientLight;
+import lighting.DirectionalLight;
+import lighting.PointLight;
+import lighting.SpotLight;
 import org.junit.jupiter.api.Test;
-
-import geometries.*;
-import lighting.*;
 import primitives.*;
 import scene.Scene;
+
+import static java.awt.Color.BLUE;
+import static java.awt.Color.WHITE;
 
 /**
  * Test rendering a basic image
@@ -15,11 +20,16 @@ import scene.Scene;
  * @author Dan
  */
 public class LightsTests {
+    private static final int SHININESS = 301;
+    private static final double KD = 0.5;
+    private static final Double3 KD3 = new Double3(0.2, 0.6, 0.4);
+    private static final double KS = 0.5;
+    private static final Double3 KS3 = new Double3(0.2, 0.4, 0.3);
+    private static final double SPHERE_RADIUS = 50d;
     private final Scene scene1 = new Scene.SceneBuilder("Test scene").build();
     private final Scene scene2 = new Scene.SceneBuilder("Test scene")
             .setAmbientLight(new AmbientLight(new Color(WHITE), new Double3(0.15)))
             .build();
-
     private final Camera camera1 = new Camera(
             new Point(0, 0, 1000),
             new Vector(0, 0, -1),
@@ -28,22 +38,11 @@ public class LightsTests {
     private final Camera camera2 = new Camera(new Point(0, 0, 1000),
             new Vector(0, 0, -1), new Vector(0, 1, 0))
             .setVPSize(200, 200).setVPDistance(1000);
-
-    private static final int SHININESS = 301;
-    private static final double KD = 0.5;
-    private static final Double3 KD3 = new Double3(0.2, 0.6, 0.4);
-
-    private static final double KS = 0.5;
-    private static final Double3 KS3 = new Double3(0.2, 0.4, 0.3);
-
     private final Material material = new Material().setKd(KD3).setKs(KS3).setShininess(SHININESS);
     private final Color trianglesLightColor = new Color(800, 500, 250);
     private final Color sphereLightColor = new Color(800, 500, 0);
     private final Color sphereColor = new Color(BLUE).reduce(2);
-
     private final Point sphereCenter = new Point(0, 0, -50);
-    private static final double SPHERE_RADIUS = 50d;
-
     // The triangles' vertices:
     private final Point[] vertices =
             {

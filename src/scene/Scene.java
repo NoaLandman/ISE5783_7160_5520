@@ -9,19 +9,18 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class Scene {
-    private final String name;
     public final Color background;
     public final AmbientLight ambientLight;
-
     public final Geometries geometries;
     public final List<LightSource> lights;
+    private final String name;
 
     private Scene(SceneBuilder builder) {
         this.name = builder.name;
         background = builder.background;
         geometries = builder.geometries;
-        ambientLight= builder.ambientLight;
-        lights= builder.lights;
+        ambientLight = builder.ambientLight;
+        lights = builder.lights;
     }
 
     public static class SceneBuilder {
@@ -32,11 +31,14 @@ public class Scene {
         private List<LightSource> lights = new LinkedList<>();
 
 
+        public SceneBuilder(String name) {
+            this.name = name;
+        }
+
         public SceneBuilder setBackground(Color background) {
             this.background = background;
             return this;
         }
-
 
         public SceneBuilder setAmbientLight(AmbientLight ambientLight) {
             this.ambientLight = ambientLight;
@@ -51,10 +53,6 @@ public class Scene {
         public SceneBuilder setLights(List<LightSource> lights) {
             this.lights = lights;
             return this;
-        }
-
-        public SceneBuilder(String name) {
-            this.name = name;
         }
 
         public Scene build() {

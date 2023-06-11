@@ -1,11 +1,14 @@
 /**
-
- The Camera class represents a camera in a 3D scene.
- It provides methods for constructing rays through pixels on a virtual image plane.
- The camera is defined by its position, its "up" and "to" vectors, and the dimensions and distance of the virtual image plane.
+ * The Camera class represents a camera in a 3D scene.
+ * It provides methods for constructing rays through pixels on a virtual image plane.
+ * The camera is defined by its position, its "up" and "to" vectors, and the dimensions and distance of the virtual image plane.
  */
 package renderer;
-import primitives.*;
+
+import primitives.Color;
+import primitives.Point;
+import primitives.Ray;
+import primitives.Vector;
 
 import java.util.MissingResourceException;
 
@@ -55,6 +58,7 @@ public class Camera {
      * The RayTracerBase object for tracing rays.
      */
     private RayTracerBase rayTracer;
+
     /**
      * Construct a new Camera object with the specified position, "up" vector and "to" vector.
      * The "right" vector is calculated automatically.
@@ -65,13 +69,13 @@ public class Camera {
      * @throws IllegalArgumentException If the "up" and "to" vectors are not vertical to each other.
      */
     public Camera(Point p0, Vector vTo, Vector vUp) {
-        if(!isZero(vUp.dotProduct(vTo)))
+        if (!isZero(vUp.dotProduct(vTo)))
             throw new IllegalArgumentException("Vectors are not vertical");
 
         this.p0 = p0;
         this.vUp = vUp.normalize();
         this.vTo = vTo.normalize();
-        this.vRight=vTo.crossProduct(vUp).normalize();
+        this.vRight = vTo.crossProduct(vUp).normalize();
     }
 
     /**
@@ -82,8 +86,8 @@ public class Camera {
      * @return This Camera object, to enable chaining of methods.
      */
     public Camera setVPSize(double width, double height) {
-        this.width=width;
-        this.height=height;
+        this.width = width;
+        this.height = height;
         return this;
     }
 
@@ -93,8 +97,8 @@ public class Camera {
      * @param distance The distance between the camera and the virtual image plane.
      * @return This Camera object, to enable chaining of methods.
      */
-    public Camera setVPDistance(double distance){
-        this.distance=distance;
+    public Camera setVPDistance(double distance) {
+        this.distance = distance;
         return this;
     }
 
@@ -135,6 +139,7 @@ public class Camera {
 
         return new Ray(p0, Vij);
     }
+
     /**
 
      Sets the ImageWriter object for rendering the image.
@@ -145,6 +150,7 @@ public class Camera {
         this.imageWriter = imageWriter;
         return this;
     }
+
     /**
 
      Sets the RayTracerBase object for tracing rays.
@@ -155,6 +161,7 @@ public class Camera {
         this.rayTracer = rayTracerBase;
         return this;
     }
+
     /**
 
      Renders the image by casting rays through each pixel on the virtual image plane.
@@ -192,6 +199,7 @@ public class Camera {
         }
         return this;
     }
+
     /**
 
      Prints a grid on the image with a given interval and color.
@@ -214,18 +222,19 @@ public class Camera {
         }
         writer.writeToImage();
     }
+
     /**
 
      Writes the rendered image to the ImageWriter object.
      The ImageWriter object must be set before calling this method.
      @throws MissingResourceException If the ImageWriter is not set.
      */
-    public void writeToImage()
-    {
-        if(this.imageWriter==null)
+    public void writeToImage() {
+        if (this.imageWriter == null)
             throw new MissingResourceException("image writer failed", null, null);
         imageWriter.writeToImage();
     }
+
     private void castRay(int nX, int nY, int col, int row) {
         Ray ray = constructRayThroughPixel(nX, nY, col, row);
         Color color = rayTracer.traceRay(ray);

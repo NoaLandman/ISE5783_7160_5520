@@ -1,10 +1,11 @@
 /**
-
- The abstract RadialGeometry class represents a geometry with a radial component, such as a circle or a sphere.
- It implements the Geometry interface.
- @author: Avigail Tenenbaum and Noa Landman
+ * The abstract RadialGeometry class represents a geometry with a radial component, such as a circle or a sphere.
+ * It implements the Geometry interface.
+ *
+ * @author: Avigail Tenenbaum and Noa Landman
  */
 package geometries;
+
 /** @author Avigail and Noa */
 public abstract class RadialGeometry extends Geometry {
 

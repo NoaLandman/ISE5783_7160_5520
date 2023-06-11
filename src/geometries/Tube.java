@@ -1,13 +1,13 @@
 /**
-
- *The Tube class represents a tube-shaped 3D geometrical object.
- *It extends the RadialGeometry class and includes an axis ray for the tube.
- @author: Avigail Tenenbaum and Noa Landman
+ * The Tube class represents a tube-shaped 3D geometrical object.
+ * It extends the RadialGeometry class and includes an axis ray for the tube.
+ *
+ * @author: Avigail Tenenbaum and Noa Landman
  */
 package geometries;
+
 import primitives.Point;
 import primitives.Ray;
-import primitives.Util;
 import primitives.Vector;
 
 import java.util.List;
@@ -16,7 +16,7 @@ import static primitives.Util.alignZero;
 import static primitives.Util.isZero;
 
 /** @author Avigail and Noa */
-public class Tube extends RadialGeometry{
+public class Tube extends RadialGeometry {
 
     /**
      * The axis ray of the tube..
@@ -48,29 +48,29 @@ public class Tube extends RadialGeometry{
      * @return the normal vector to the given point on the tube's surface
      */
     @Override
-      public Vector getNormal(Point point) {
-          //TODO
-          Point P0 = axisRay.getP0();
-          Vector v = axisRay.getDir();
+    public Vector getNormal(Point point) {
+        //TODO
+        Point P0 = axisRay.getP0();
+        Vector v = axisRay.getDir();
 
-          Vector P0_P = point.subtract(P0);
+        Vector P0_P = point.subtract(P0);
 
-          double t = alignZero(v.dotProduct(P0_P));
+        double t = alignZero(v.dotProduct(P0_P));
 
-          if (isZero(t)) {
-              return P0_P.normalize();
-          }
+        if (isZero(t)) {
+            return P0_P.normalize();
+        }
 
-          Point o = P0.add(v.scale(t));
+        Point o = P0.add(v.scale(t));
 
-          if (point.equals(o)) {
-              throw new IllegalArgumentException("point cannot be on the tube axis");
-          }
+        if (point.equals(o)) {
+            throw new IllegalArgumentException("point cannot be on the tube axis");
+        }
 
-          Vector n = point.subtract(o).normalize();
+        Vector n = point.subtract(o).normalize();
 
-          return n;
-      }
+        return n;
+    }
 
     @Override
     protected List<GeoPoint> findGeoIntersectionsHelper(Ray ray) {
