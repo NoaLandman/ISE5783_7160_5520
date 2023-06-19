@@ -156,7 +156,7 @@ public class ReflectionRefractionTests {
                                 new Vector(0, 0, -1)).setKl(0.0005).setKq(0.0005),
                         new DirectionalLight(new Color(100, 50, 100), new Vector(-1, -1, -1)))).build();
 
-        ImageWriter imageWriter = new ImageWriter("myTestTrianglesAndSpheres", 600, 600);
+        ImageWriter imageWriter = new ImageWriter("myTestTrianglesAndSpheres1", 600, 600);
         camera.setImageWriter(imageWriter)
                 .setRayTracerBase(new RayTracerBasic(alternateScene))
                 .renderImage()

@@ -4,6 +4,8 @@ import primitives.Color;
 import primitives.Ray;
 import scene.Scene;
 
+import java.util.List;
+
 /**
  * The RayTracerBase class is an abstract base class for ray tracing algorithms.
  * <p>
@@ -34,5 +36,6 @@ The scene to be rendered.
      * @return The color of the intersection point.
      */
     public abstract Color traceRay(Ray ray);
-
-}
+    public abstract Color traceRays(List<Ray> rays);
+    public abstract Color adaptiveTraceRays(List<Ray> rays);
+    }

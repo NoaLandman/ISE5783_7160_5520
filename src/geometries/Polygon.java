@@ -1,37 +1,32 @@
 package geometries;
 
-import primitives.Point;
-import primitives.Ray;
-import primitives.Vector;
-
+import java.util.LinkedList;
 import java.util.List;
 
-import static primitives.Util.alignZero;
-import static primitives.Util.isZero;
+import primitives.*;
+
+import static primitives.Util.*;
 
 /**
  * Polygon class represents two-dimensional polygon in 3D Cartesian coordinate
  * system
- *
- * @author Dan
  */
 public class Polygon extends Geometry {
     /**
      * List of polygon's vertices
      */
-    protected final List<Point> vertices;
+    protected List<Point> vertices;
     /**
      * Associated plane in which the polygon lays
      */
-    protected final Plane plane;
-    private final int size;
+    protected Plane plane;
+    private int size;
 
     /**
      * Polygon constructor based on vertices list. The list must be ordered by edge
      * path. The polygon must be convex.
      *
-     * @param vertices list of vertices according to their order by
-     *                 edge path
+     * @param vertices list of vertices according to their order by edge path
      * @throws IllegalArgumentException in any case of illegal combination of
      *                                  vertices:
      *                                  <ul>
@@ -52,15 +47,15 @@ public class Polygon extends Geometry {
         if (vertices.length < 3)
             throw new IllegalArgumentException("A polygon can't have less than 3 vertices");
         this.vertices = List.of(vertices);
-        size = vertices.length;
-
         // Generate the plane according to the first three vertices and associate the
         // polygon with this plane.
         // The plane holds the invariant normal (orthogonal unit) vector to the polygon
         plane = new Plane(vertices[0], vertices[1], vertices[2]);
-        if (size == 3) return; // no need for more tests for a Triangle
+        if (vertices.length == 3)
+            return; // no need for more tests for a Triangle
 
         Vector n = plane.getNormal();
+
         // Subtracting any subsequent points will throw an IllegalArgumentException
         // because of Zero Vector if they are in the same point
         Vector edge1 = vertices[vertices.length - 1].subtract(vertices[vertices.length - 2]);
@@ -86,52 +81,79 @@ public class Polygon extends Geometry {
             if (positive != (edge1.crossProduct(edge2).dotProduct(n) > 0))
                 throw new IllegalArgumentException("All vertices must be ordered and the polygon must be convex");
         }
+        size = vertices.length;
     }
 
     /**
-     * Returns the normal vector to the surface of the polygon at the given point.
+     * Return the normal to the polygon
      *
-     * @param point the point on the polygon for which to return the normal vector
-     * @return the normal vector to the surface of the polygon at the given point
+     * @param point Point on the surface of the geometry shape
+     * @return The normal
      */
-
     @Override
     public Vector getNormal(Point point) {
         return plane.getNormal();
     }
 
+    /**
+     * find intersection between ray and polygon
+     * @param ray ray towards the plane
+     * @return  immutable list of one intersection point as  {@link GeoPoint} object
+     */
     @Override
-    protected List<GeoPoint> findGeoIntersectionsHelper(Ray ray) {
-        List<GeoPoint> planePoints = plane.findGeoIntersections(ray);
+    protected List<GeoPoint> findGeoIntersectionsHelper(Ray ray, double maxDistance) {
 
-        if (planePoints == null) {
+        // find intersection between ray and plane containing the polygon
+        List<GeoPoint> points=plane.findGeoIntersections(ray,maxDistance);
+        // no intersections with plane , ray does not intersect polygon
+        if (points==null)
             return null;
-        }
 
+        //check that intersection point is closer to ray origin than
+        // max distance parameter
+        double distance = points.get(0).point.distance(ray.getP0());
+        if(alignZero(distance-maxDistance)>0)
+            return null;
 
-        List<Point> l = vertices;
+        // check that intersection point is within polygon boundary
+        // by  creating vectors from ray origin to each pair of adjacent vertices in polygon
+        // if the sign of the dot product of the vertices for all pairs is matching. ray intersects polygon
         Point p0 = ray.getP0();
+        Vector direction = ray.getDir();
 
-        Vector v1 = l.get(0).subtract(p0);
-        Vector v2 = l.get(1).subtract(p0);
-        Vector v3 = l.get(2).subtract(p0);
+        // get vector from ray origin to first vertices of polygon
+        Vector v1 = vertices.get(0).subtract(p0);
 
-        Vector n1 = (v1.crossProduct(v2)).normalize();
-        Vector n2 = (v2.crossProduct(v3)).normalize();
-        Vector n3 = (v3.crossProduct(v1)).normalize();
+        // get vector from ray origin to adjacent vertices of previous vertices
+        Vector v2 = vertices.get(1).subtract(p0);
 
-        double num1 = alignZero(n1.dotProduct(ray.getDir()));
-        double num2 = alignZero(n2.dotProduct(ray.getDir()));
-        double num3 = alignZero(n3.dotProduct(ray.getDir()));
+        // get sign of dot product of the vectors
+        double sign = direction.dotProduct(v2.crossProduct(v1));
 
-        // if there is an intersection point inside the triangle
-        if ((num1 > 0 && num2 > 0 && num3 > 0) || (num1 < 0 && num2 < 0 && num3 < 0)) {
-            return List.of(new GeoPoint(this, planePoints.get(0).point));
+        // if dot product == 0 ray does not intersect polygon
+        if (isZero(sign))
+            return null;
+
+        // flag setting the sign of the dot product of the first pair of vertices
+        boolean checkSign = sign > 0;
+
+        // loop over all adjacent vertices in polygon and check sign of dot-product for constructed
+        // vectors
+        for (int i = vertices.size() - 1; i > 0; --i) {
+            v2 = v1;
+            v1 = vertices.get(i).subtract(p0);
+            sign = alignZero(direction.dotProduct(v2.crossProduct(v1)));
+
+            // vectors constructed are orthogonal , ray does not intersect polygon
+            if (isZero(sign))
+                return null;
+
+            //  sign is not matching
+            if (checkSign != (sign > 0))
+                return null;
         }
 
-        // there isn't an intersection point inside the triangle
-        return null;
-
+        // all signs were matching return the intersection point
+        return List.of(new GeoPoint(this,points.get(0).point));
     }
-
 }

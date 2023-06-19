@@ -4,67 +4,45 @@ import primitives.Color;
 import primitives.Point;
 import primitives.Vector;
 
+import java.util.List;
+
 /**
- * The DirectionalLight class represents a directional light source.
- * <p>
- * A directional light emits light uniformly in a specific direction,
- * <p>
- * as if it is infinitely far away and the light rays are parallel.
- * <p>
- * It provides consistent illumination and is commonly used to simulate sunlight.
+ * Class represents directional light in a scene
+ * Extends abstract class Light and implements interface LightSource
  */
 public class DirectionalLight extends Light implements LightSource {
-
+    // Field represents the direction of the light
     private Vector direction;
 
     /**
-     * Constructs a DirectionalLight object with the specified intensity and direction.
-     *
-     * @param intensity The intensity (color and brightness) of the light.
-     * @param direction The direction in which the light is emitted.
+     * Constructor for DirectionalLight
+     * @param intensity parameter for field intensity in super
+     * @param direction parameter for field direction
      */
     public DirectionalLight(Color intensity, Vector direction) {
         super(intensity);
-        this.direction = direction.normalize();
+        this.direction = direction;
     }
 
-    /**
-     * Returns the intensity of the directional light at the given point.
-     * Since a directional light emits light uniformly in a specific direction,
-     * the intensity is the same at all points.
-     *
-     * @param p The point at which to calculate the intensity.
-     * @return The intensity of the light.
-     */
     @Override
     public Color getIntensity(Point p) {
+        //intensity of directional light is the same in every point
         return super.getIntensity();
     }
 
-    /**
-     * Returns the direction from the light source to the given point.
-     * Since a directional light emits light uniformly in a specific direction,
-     * the direction is the same for all points.
-     *
-     * @param p The point for which to calculate the direction.
-     * @return The direction vector.
-     */
     @Override
     public Vector getL(Point p) {
-        return direction;
+        return direction.normalize();
     }
 
-    /**
-     * Returns the distance from the light source to the given point.
-     *
-     * <p>Since a directional light is considered infinitely far away,
-     * the distance is always positive infinity.
-     *
-     * @param point The point for which to calculate the distance.
-     * @return The distance to the point (always positive infinity).
-     */
+
     @Override
     public double getDistance(Point point) {
         return Double.POSITIVE_INFINITY;
+    }
+
+    @Override
+    public List<Vector> getLCircle(Point p, double r, int amount) {
+        return List.of(getL(p));
     }
 }

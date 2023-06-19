@@ -10,6 +10,8 @@ import primitives.Color;
 import primitives.Material;
 import primitives.Point;
 import primitives.Vector;
+import geometries.Cylinder;
+
 
 /**
  * @author Avigail and Noa

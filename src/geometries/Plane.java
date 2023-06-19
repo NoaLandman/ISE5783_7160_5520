@@ -89,41 +89,52 @@ public class Plane extends Geometry {
     }
 
     /**
-     * Finds the intersection points between the given ray and the plane.
-     *
-     * @param ray the ray to find intersections with
-     * @return a list of intersection points, or null if there are no intersections
+     * find intersection between ray and plane
+     * @param ray ray towards the plane
+     * @return  immutable list of one intersection point as  {@link GeoPoint} object
      */
-
-
     @Override
-    protected List<GeoPoint> findGeoIntersectionsHelper(Ray ray) {
-        Point p0 = ray.getP0();
+    protected List<GeoPoint> findGeoIntersectionsHelper(Ray ray,double maxDistance) {
+        Point P0 = ray.getP0();
         Vector v = ray.getDir();
-
         Vector n = normal;
 
-        //ray cannot start from the plane
-        if (q0.equals(p0))
+        // ray cannot start at plane's origin point
+        if(q0.equals(P0))
             return null;
 
-        double nv = alignZero(n.dotProduct(v));
-        // ray is lying in the plane axis
+        // ray points -> P = p0 + t*v_ (v_ = direction vector)
+        // points on plane  if normal vector dot product with vector from
+        // origin point to proposed point == 0
+        // glossary:  (n,v) = dot product between vectors n,v
+        // isolating t ,( scaling factor for ray's direction vector ) ->
+        // t = (normal vector, vector from origin to point)/ (normal vector, ray vector)
+        // if t is positive ray intersects plane
+        double nv = n.dotProduct(v);
 
-        if (isZero(nv))
+        // ray direction cannot be parallel to plane orientation
+        if (isZero(nv)){
             return null;
+        }
 
-        Vector P0_Q0 = q0.subtract(p0); // Q - P0
-        double nP0Q0 = alignZero(n.dotProduct(P0_Q0));
+        // vector from origin to point
+        Vector Q_P0 = q0.subtract(P0);
 
-        if (isZero(nP0Q0))
+        double nQMinusP0 = alignZero(n.dotProduct(Q_P0));
+
+        //t should not be equal to 0
+        if( isZero(nQMinusP0)){
             return null;
-
-        double t = alignZero(nP0Q0 / nv);
-        // t should be bigger than 0
-        if (t <= 0)
-            return null;
-        return List.of(new GeoPoint(this, ray.getPoint(t)));
+        }
+        // scaling factor for ray , if value is positive
+        // ray intersects plane
+        double t = alignZero(nQMinusP0 / nv);
+        if (t > 0 && alignZero(t-maxDistance) <= 0){
+            //return immutable List
+            return List.of(new GeoPoint(this, ray.getPoint(t)));
+        }
+        // no intersection point  - ray and plane in opposite  direction
+        return null;
     }
 }
 

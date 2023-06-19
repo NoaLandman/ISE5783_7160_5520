@@ -2,67 +2,70 @@ package geometries;
 
 import primitives.Ray;
 
-import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
 
-
 /**
- * Geometries' class.
- * <p>
- * Represents a collection of geometries.
+ * Collection of geometry objects implementing {@link Intersectable}
+ * implements Composite pattern
  */
-public class Geometries extends Intersectable {
-
-    private List<Intersectable> geometries;
+public class Geometries  extends Intersectable{
 
     /**
-     * A default constructor that creates a new empty ArrayList of intersectable geometries.
+     * list of geometries that implement {@link Intersectable} interface
+     */
+    private List<Intersectable> intersectables;
+
+    /**
+     * constructor
      */
     public Geometries() {
-        geometries = new ArrayList<>();
+        intersectables = new LinkedList<Intersectable>();
     }
 
     /**
-     * Constructor that receives a list of geometries and puts them in a new ArrayList.
-     *
-     * @param geometries The list of geometries to add.
+     * constructor with parameter
+     * @param intersectables collection of {@link  Intersectable} implemented objects, to add to geometry composite
      */
-    public Geometries(Intersectable... geometries) {
-        this.geometries = new ArrayList<>(Arrays.asList(geometries));
+    public Geometries(Intersectable... intersectables) {
+        this.intersectables = new LinkedList<Intersectable>();
+        Collections.addAll(this.intersectables, intersectables);
     }
 
     /**
-     * Adds the specified geometries to the list.
-     *
-     * @param geometries The geometries to add.
+     * add collection of {@link  Geometries} geometry composite
+     * @param intersectables collection of geometries passed as parameters
      */
-    public void add(Intersectable... geometries) {
-        if (geometries != null) {
-            this.geometries.addAll(Arrays.asList(geometries));
-        }
+    public void  add( Intersectable... intersectables){
+        Collections.addAll(this.intersectables, intersectables);
     }
 
     /**
-     * Finds the geometric intersections of the geometries in the collection with the given ray.
-     *
-     * @param ray The ray to intersect with the geometries.
-     * @return A list of GeoPoint objects representing the intersections, or null if there are no intersections.
+     * find intersection between ray and all geometries in the geometry collection
+     * @param ray ray towards the composite of geometries
+     * @return  immutable list of intersection points as  {@link GeoPoint} objects
      */
     @Override
-    protected List<GeoPoint> findGeoIntersectionsHelper(Ray ray) {
-        if (this.geometries.isEmpty())
-            return null;
-        List<GeoPoint> temp = new ArrayList<>();
-        for (Intersectable intersectable : geometries) {
-            List<GeoPoint> intersections = intersectable.findGeoIntersections(ray);
-            if (intersections != null)
-                temp.addAll(intersections);
-        }
+    protected List<GeoPoint> findGeoIntersectionsHelper(Ray ray,double maxDistance) {
+        List<GeoPoint> result = null;   // intersection points
 
-        if (temp.isEmpty())
-            return null;
-        return temp;
+        //for each geometry in intersect-able collection check intersection points
+        for (var item: intersectables) {
+
+            // get intersection point for each specific item, (item can be either geometry/nested composite of geometries)
+            List<GeoPoint> itemList = item.findGeoIntersections(ray,maxDistance);
+
+            // points were found , add to composite's total intersection points list
+            if(itemList != null) {
+                if(result==null){
+                    result= new LinkedList<>();
+                }
+                result.addAll(itemList);
+            }
+        }
+        // return list of points - null if no intersection points were found
+        return result;
+
     }
 }
-

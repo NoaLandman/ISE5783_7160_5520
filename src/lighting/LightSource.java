@@ -4,6 +4,8 @@ import primitives.Color;
 import primitives.Point;
 import primitives.Vector;
 
+import java.util.List;
+
 /**
  * The LightSource interface represents a light source in a scene.
  * <p>
@@ -37,4 +39,7 @@ public interface LightSource {
      */
     public double getDistance(Point point);
 
-}
+    public List<Vector> getLCircle(Point p, double r, int amount);
+
+
+    }

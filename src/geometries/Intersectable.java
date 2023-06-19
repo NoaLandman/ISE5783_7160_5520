@@ -26,25 +26,39 @@ public abstract class Intersectable {
     }
 
     /**
-     * Finds a list of GeoPoints representing the intersections between the geometry and a given ray.
-     * This method is implemented in subclasses.
-     *
-     * @param ray The ray to intersect with.
-     * @return A list of GeoPoint objects representing the intersections with the ray.
+     * find all intersection {@link  GeoPoint}s between ray and a geometric object
+     * calls abstract helper method, each implementing class , implements helper method
+     * to return list of intersection {@link GeoPoint}s for that specific geometry
+     * @param ray ray towards the object
+     * @return immutable list of intersection {@link  GeoPoint}s
      */
-    public final List<GeoPoint> findGeoIntersections(Ray ray) {
-        return findGeoIntersectionsHelper(ray);
+    public List<GeoPoint> findGeoIntersections(Ray ray) {
+        //....
+        return findGeoIntersectionsHelper(ray,Double.POSITIVE_INFINITY);
     }
 
     /**
-     * Finds a list of GeoPoints representing the intersections between the geometry and a given ray.
-     * This method should be implemented in subclasses.
-     *
-     * @param ray The ray to intersect with.
-     * @return A list of GeoPoint objects representing the intersections with the ray.
+     * find all intersection {@link  GeoPoint}s between ray and a geometric object
+     * calls abstract helper method, each implementing class , implements helper method
+     * to return list of intersection {@link GeoPoint}s for that specific geometry
+     * @param ray  ray towards the object
+     * @param maxDistance upper boundary for distance of intersection points from ray origin
+     * @return immutable list of intersection {@link  GeoPoint}s
      */
-    protected abstract List<GeoPoint> findGeoIntersectionsHelper(Ray ray);
-
+    public List<GeoPoint> findGeoIntersections(Ray ray, double maxDistance) {
+        //....
+        return findGeoIntersectionsHelper(ray,maxDistance);
+    }
+    /**
+     * abstract helper method , gets list of intersection {@link GeoPoint}s between a ray and geometry
+     * that are closer to rya origin than the upper distance boundary
+     * implemented by interface implementing classes,calculating intersection
+     * for the specific type of the class's geometry
+     * @param ray ray towards the object
+     * @param maxDistance upper boundary for distance of intersection points from ray
+     * @return immutable list of intersection {@link  GeoPoint}s
+     */
+    protected abstract List<GeoPoint> findGeoIntersectionsHelper(Ray ray, double maxDistance);
     /**
      * Represents a point of intersection between a ray and a geometry.
      */
