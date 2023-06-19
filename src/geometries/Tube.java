@@ -88,22 +88,7 @@ public class Tube extends RadialGeometry {
         if (v.equals(vt))
             return null;
 
-        /**
-         * link for formula explanation
-         * @link https://mrl.cs.nyu.edu/~dzorin/rend05/lecture2.pdf
-         */
 
-        // glossary : (p,v) = dot product of p,v
-        //              ∆p = vector from tube point to ray point
-        //              v = tube's direction vector
-        //              vt = ray's direction vector
-        //------------------------------------------------------
-        // two points found by scaling ray by t1,t2 scalars
-        // t1,t2 = results of polynomial equation At^2 + Bt + C = 0
-        // where:
-        // A = (v -(v,vt)*vt)²
-        // B = 2 * (v -(v,vt)*vt , ∆p - (∆p,vt)*vt)
-        // C = (∆p - (∆p,vt)*vt)² - radius²
 
         double vvt, a, b, c;
         // calculate (v,vt)

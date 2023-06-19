@@ -196,10 +196,11 @@ public class Minip1tests {
                         (new PointLight(spCL, spPL).setKl(0.001).setKq(0.0002)),
                         (new PointLight(spCL, spPL2).setKl(0.001).setKq(0.0002)))).build();
 
-        ImageWriter imageWriter = new ImageWriter("Test2AA", 1000, 1000);
+        ImageWriter imageWriter = new ImageWriter("Test2AASםכאSoftShadows", 1000, 1000);
         camera1.setImageWriter(imageWriter)
-                .useAdaptive(true).setMultithreading(30)
-                .useAntiAliasing(true)
+                //.useAdaptive(true)
+                .setMultithreading(30)
+                //.useAntiAliasing(true)
                 .setRayTracerBase(new RayTracerBasic(scene))
                 .renderImage()
                 .writeToImage();

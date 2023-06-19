@@ -156,6 +156,12 @@ public class PointLight extends Light implements LightSource {
         return result;
     }
 
+    /**
+
+     Calculates and returns the distance from the light source to the given point.
+     @param point The point for which to calculate the distance.
+     @return The distance from the light source to the given point.
+     */
     @Override
     public double getDistance(Point point) {
         return position.distance(point);

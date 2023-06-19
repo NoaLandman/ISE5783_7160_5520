@@ -103,13 +103,6 @@ public class Plane extends Geometry {
         if(q0.equals(P0))
             return null;
 
-        // ray points -> P = p0 + t*v_ (v_ = direction vector)
-        // points on plane  if normal vector dot product with vector from
-        // origin point to proposed point == 0
-        // glossary:  (n,v) = dot product between vectors n,v
-        // isolating t ,( scaling factor for ray's direction vector ) ->
-        // t = (normal vector, vector from origin to point)/ (normal vector, ray vector)
-        // if t is positive ray intersects plane
         double nv = n.dotProduct(v);
 
         // ray direction cannot be parallel to plane orientation

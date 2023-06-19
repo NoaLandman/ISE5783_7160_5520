@@ -16,7 +16,8 @@ import static primitives.Util.isZero;
 
 public class Cylinder extends Tube {
 
-    private final double _height;
+    //the height of cylinder
+    private final double height;
 
 
     /**
@@ -27,7 +28,7 @@ public class Cylinder extends Tube {
      */
     public Cylinder(double radius,Ray axisRay, double height) {
         super(radius,axisRay);
-        _height = height;
+        this.height = height;
     }
 
     /**
@@ -36,15 +37,15 @@ public class Cylinder extends Tube {
      * @return The height of the cylinder (double)
      */
     public double getHeight() {
-        return _height;
+        return height;
     }
 
     @Override
     public String toString() {
         return "Cylinder{" +
-                "_height=" + _height +
-                ", _axisRay=" + axisRay +
-                ", _radius=" + radius +
+                "height=" + height +
+                ", axisRay=" + axisRay +
+                ", radius=" + radius +
                 '}';
     }
 
@@ -68,7 +69,7 @@ public class Cylinder extends Tube {
         }
 
         // if the point is at a base
-        if (t == 0 || isZero(_height - t)) // if it's close to 0, we'll get ZERO vector exception
+        if (t == 0 || isZero(height - t)) // if it's close to 0, we'll get ZERO vector exception
             return v;
 
         o = o.add(v.scale(t));
@@ -86,7 +87,7 @@ public class Cylinder extends Tube {
         // origin point of cylinder (on bottom base)
         Point basePoint=axisRay.getP0();
         // point across base point on top base
-        Point topPoint =axisRay.getPoint(_height);
+        Point topPoint =axisRay.getPoint(height);
         // direction vector of cylinder (orthogonal to base point)
         Vector vC=axisRay.getDir();
 

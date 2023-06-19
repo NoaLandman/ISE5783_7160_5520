@@ -449,19 +449,21 @@ public class Camera {
      * @param color    the color for the grid
      */
     public void printGrid(int interval, Color color) {
-        if (this.imageWriter == null)
-            throw new MissingResourceException("image writer failed", null, null);
-        var writer = new ImageWriter("firstImage", 800, 500);
-        for (int i = 0; i < 500; i++) {
-            for (int j = 0; j < 800; j++) {
-                if (i % interval == 0 || j % interval == 0 || i == 799 || j == 499)
-                    writer.writePixel(j, i, color);
-                else
-                    writer.writePixel(j, i, new primitives.Color(0, 0, 255));
+        if (imageWriter == null)
+            throw new MissingResourceException("missing imageawriter", "Camera", "in print Grid");
+
+        int Nx = imageWriter.getNx();
+        int Ny = imageWriter.getNy();
+        for (int j = 0; j < Nx; j++) {
+            for (int i = 0; i < Ny; i++) {
+                //grid 16 X 10
+                if (j % interval == 0 || i % interval == 0) {
+                    imageWriter.writePixel(j, i, color);
+                }
             }
         }
-        writer.writeToImage();
     }
+
 
     /**
      * Function renderImage produces unoptimized png file of the image according to
