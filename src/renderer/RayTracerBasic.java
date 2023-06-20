@@ -25,7 +25,7 @@ public class RayTracerBasic extends RayTracerBase {
     /**
      * Declares whether the ray tracer should create soft shadow rays
      */
-    private boolean isSoftShadow = true;
+    private boolean isSoftShadow = false;
     /**
      * Declares how many soft shadow rays per point to create, if applicable
      */

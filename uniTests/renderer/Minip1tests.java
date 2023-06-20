@@ -61,7 +61,7 @@ public class Minip1tests {
     private Geometry sphere12 = new Sphere(6d,new Point(20, 20, 0)) //
             .setEmission(new Color(RED).reduce(2)) //
             .setMaterial(new Material().setKd(0.5).setKs(0.5).setShininess(300));
-    private Geometry sphere13 = new Sphere(6d,new Point(30, 20, 0)) //
+    private Geometry sphere13 = new Sphere(6d,new Point(30, 20, 300)) //
             .setEmission(new Color(RED).reduce(2)) //
             .setMaterial(new Material().setKd(0.5).setKs(0.5).setShininess(300));
     private Geometry sphere14 = new Sphere(6d,new Point(-30, 10, 0)) //
@@ -196,11 +196,11 @@ public class Minip1tests {
                         (new PointLight(spCL, spPL).setKl(0.001).setKq(0.0002)),
                         (new PointLight(spCL, spPL2).setKl(0.001).setKq(0.0002)))).build();
 
-        ImageWriter imageWriter = new ImageWriter("Test2AASםכאSoftShadows", 1000, 1000);
+        ImageWriter imageWriter = new ImageWriter("Test2Antialising", 1000, 1000);
         camera1.setImageWriter(imageWriter)
-                //.useAdaptive(true)
-                .setMultithreading(30)
-                //.useAntiAliasing(true)
+                .setUseAdaptive(true)
+                .setImprovments(true,false,true)
+                .setMultithreading(4)
                 .setRayTracerBase(new RayTracerBasic(scene))
                 .renderImage()
                 .writeToImage();

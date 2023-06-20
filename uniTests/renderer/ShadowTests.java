@@ -39,6 +39,7 @@ public class ShadowTests {
                 new SpotLight(new Color(400, 240, 0), spotLocation, new Vector(1, 1, -3)) //
                         .setKl(1E-5).setKq(1.5E-7));
         camera.setImageWriter(new ImageWriter(pictName, 400, 400)) //
+                .setImprovments(true,true,false)
                 .renderImage() //
                 .writeToImage();
     }
@@ -58,7 +59,7 @@ public class ShadowTests {
      */
     @Test
     public void sphereTriangleMove1() {
-        sphereTriangleHelper("shadowSphereTriangleMove2", //
+        sphereTriangleHelper("shadowSphereTriangleMove2AA", //
                 new Triangle(new Point(-62, -32, 0), new Point(-32, -62, 0), new Point(-60, -60, -4)), //
                 new Point(-100, -100, 200));
     }
@@ -68,7 +69,7 @@ public class ShadowTests {
      */
     @Test
     public void sphereTriangleMove2() {
-        sphereTriangleHelper("shadowSphereTriangleMove1", //
+        sphereTriangleHelper("shadowSphereTriangle", //
                 new Triangle(new Point(-49, -19, 0), new Point(-19, -49, 0), new Point(-47, -47, -4)), //
                 new Point(-100, -100, 200));
     }
@@ -130,6 +131,7 @@ public class ShadowTests {
         Camera newCamera = new Camera(new Point(0, 0, 1000), new Vector(0, 0, -1), new Vector(0, 1, 0)) //
                 .setVPSize(200, 200)
                 .setVPDistance(1000) //
+                .setImprovments(true,true,false)
                 .setRayTracerBase(new RayTracerBasic(alternateScene))
                 .setImageWriter(new ImageWriter("shadowTrianglesSphere", 600, 600)) //
                 .renderImage();

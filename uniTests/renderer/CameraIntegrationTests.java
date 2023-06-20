@@ -125,7 +125,7 @@ public class CameraIntegrationTests {
         List<Ray> rays = new LinkedList<Ray>();
         for (int row = 0; row < nX; row++)
             for (int column = 0; column < nY; column++) {
-                rays.add(cam.constructRayThroughPixel(nX, nY, column, row));
+                rays.add(cam.constructRay(nX, nY, column, row));
             }
 
         var result2 = rays
