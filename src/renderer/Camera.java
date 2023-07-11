@@ -30,6 +30,7 @@ public class Camera {
     private Vector vTo;
     private Vector vUp;
     private Vector vRight;
+
     private double distance;
     private double height;
     private double width;
@@ -41,12 +42,12 @@ public class Camera {
     private boolean useSoftSHadows=false;
     private Point p0;
 
-    private boolean isAdaptiveSuperSamplingOn = true;
+    private boolean isAdaptiveSuperSamplingOn = false;
     private boolean isAntiAliasingOn = false;
 
     private int numOfRays=300;
     private int adaptiveMaxDepth = 4;
-    private boolean isMultithreading=true;
+    private boolean isMultithreading=false;
     int numOfThreads=30;
 
     //    /*

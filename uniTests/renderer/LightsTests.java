@@ -17,9 +17,11 @@ import static java.awt.Color.WHITE;
 /**
  * Test rendering a basic image
  *
+ * *
  * @author Dan
  */
 public class LightsTests {
+
     private static final int SHININESS = 301;
     private static final double KD = 0.5;
     private static final Double3 KD3 = new Double3(0.2, 0.6, 0.4);
