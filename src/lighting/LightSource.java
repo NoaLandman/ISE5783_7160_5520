@@ -48,7 +48,9 @@ public interface LightSource {
      @param p The center point of the circle.
      @param r The radius of the circle.
      @param amount The number of points to generate on the circle.
+     credit to Dina for the code
      @return The list of vectors representing positions on the circle.
+     credit to Dina for the code
      */
     public List<Vector> getLCircle(Point p, double r, int amount);
 }

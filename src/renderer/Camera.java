@@ -38,12 +38,12 @@ public class Camera {
     private RayTracerBase rayTracer;
     private int antiAliasingFactor = 1;
     private int maxAdaptiveLevel = 2;
-    private boolean useAdaptive = true;
+    private boolean useAdaptive = false;
     private boolean useSoftSHadows=false;
     private Point p0;
 
-    private boolean isAdaptiveSuperSamplingOn = false;
     private boolean isAntiAliasingOn = false;
+    private boolean isSS=false;
 
     private int numOfRays=300;
     private int adaptiveMaxDepth = 4;
@@ -215,7 +215,7 @@ public class Camera {
     //
     private Color castRay(int nX, int nY, double j, double i) {
         // Check if adaptive super sampling is turned on
-        if (isAdaptiveSuperSamplingOn) {
+        if (useAdaptive) {
             // Call adaptiveAntiAliasing method and return the resulting color
             return adaptiveAntiAliasing(nX, nY, j, i);
         } else if (isAntiAliasingOn) {
